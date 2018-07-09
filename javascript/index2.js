@@ -7,9 +7,8 @@ var dCurMonth = dDate.getMonth();
 var dCurDayOfMonth = dDate.getDate();
 var dCurYear = dDate.getFullYear();
 var objPrevElement = new Object();
-var modal = document.getElementById('myModal');
 var dCurDate = new Date();
-var modal1 = document.getElementById('modal-wrapper');
+
 var modal2 = document.getElementById('modal-wrapperShowEvent');
  var modal = document.getElementById('modal-wrapper');
 
@@ -213,9 +212,9 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
 // End -->
 //pop-up
  var modalSave = document.getElementById('modal-wrapperSaveEvent');
- window.onclick = function(event) {
-     if (event.target == modalSave) {
-           modal.style.display="none";
+ window.onclick = function(event2) {
+     if (event2.target == modalSave) {
+           modalSave.style.display="none";
      }
  }
 

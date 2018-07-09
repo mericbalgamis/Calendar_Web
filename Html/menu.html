@@ -1,6 +1,6 @@
 <html><title>AsimovCalender</title>
 
-<body background="C:\Users\User\Desktop\back3.jpg">
+<body background="C:\Users\User\Calendar_Web\pictures\back3.jpg">
 
 <!--Eventlerin liste halinde gösterileceði buton-->
 <button onclick="document.getElementById('modal-wrapperShowEvent').style.display='block'" style="width:200px; margin-top:30px; margin-right:80px;">
@@ -17,7 +17,7 @@ Show Event
         
     <div class="imgcontainer">
       <span onclick="document.getElementById('modal-wrapperShowEvent').style.display='none'" class="close" title="Close PopUp">&times;</span>
-      <img src="C:\Users\User\Desktop\eve.png" alt="avatarSearch" class="avatarSearch">
+      <img src="C:\Users\User\Calendar_Web\pictures\eve.png" alt="avatarSearch" class="avatarSearch">
       <h1 style="text-align:center">My Appointments</h1>
     </div>
 
@@ -38,37 +38,47 @@ Show Event
   <!--Menu name-->
         <div class="imgcontainer">
               <span onclick="document.getElementById('modal-wrapper').style.display='none'" class="close" title="Close PopUp">&times;</span>
-              <img src="C:\Users\User\Desktop\event2.png" alt="Avatar" class="avatar">
+              <img src="C:\Users\User\Calendar_Web\pictures\event2.png" alt="Avatar" class="avatar">
               <h1 style="text-align:center">Add Event!</h1>
         </div>
          <!--Title-->
         <div class="container" align='center'>
         <label for="appt-title">Title:</label>
-               <input type="title" placeholder="Title" name="title">
+               <input type="title" placeholder="Title" name="title" id="title">
         </div>
           <!--Content-->
         <div class="container" align='center'>
          <label for="appt-content">Content:</label>
-             <input type="content" placeholder="Content" name="content">
+             <input type="content" placeholder="Content" name="content" id="content">
         </div>
         
          <!--Location-->
         <div class="container" align='center'>
          <label for="appt-location">Location:</label>
-             <input type="content" placeholder="Location" name="location">
+             <input type="content" placeholder="Location" name="location" id="location" >
         </div>
+        
+          <!--StartDate-->
+        <div class="container" align='center'>
+         <label for="appt-startDate">Start Date:</label>
+             <!----<input type="content" placeholder="StartTime" name="start"> -->
+             <input type="date" name="StartDate" max="2030-12-31" id ="startDate">        
+        </div>    
+    
+    
+        
           <!--Start-->
         <div class="container" align='center'>
          <label for="appt-startTime">Start Time:</label>
              <!----<input type="content" placeholder="StartTime" name="start"> -->
-             <input type="time" id="appt-startTime" name="appt-startTime"
-               min="9:00" max="18:00" required />
+             <input type="time" id="appt-startTime" name="appt-startTime" id="startTime"
+               min="9:00" max="18:00" required / >
              
         </div>
            <!--Finish-->
         <div class="container" align='center'>
          <label for="appt-finishTime">Finish Time:</label>
-            <input type="time" id="appt-finishTime" name="appt-finishTime"
+            <input type="time" id="appt-finishTime" name="appt-finishTime" id="finishTime"
                min="9:00" max="18:00" required />
         </div >
          <!--Repeat-->
@@ -102,10 +112,12 @@ Show Event
                 <option value="1 Month Ago">1 Month  Ago</option>  
                 </select>
         </div >
-
+         
+         
+         
         <!--Save-->
-        <div class="container" align='center'>
-         <button onclick="document.getElementById('modal-wrapperSaveEvent').style.display='block'" style="width:250px; margin-top:5px; ">Save</button>
+        <div  id="modal-wrapper" class="container" align='center'>
+         <button onclick="SaveEvent()" style="width:250px; margin-top:5px; ">Save</button>
         </div>
      
      
@@ -124,28 +136,36 @@ Show Event
 
 
 
-
-
-
-
-                                                   
-
-
-
-
-
-
 <!--LINKS-->
 
 </body>
     <head> 
-            <link rel="stylesheet" href="index2.css">
+            <link rel="stylesheet" href="C:\Users\User\Calendar_Web\Css\index2.css">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-           <script src="index2.js" for=window event=onload></script>
+           <script src="C:\Users\User\Calendar_Web\javascript\index2.js" for=window event=onload></script>
             <form name="frmCalendarSample" method="post" action="">
             <input type="hidden" name="calSelectedDate" value="">
             </form>
     </head> 
+    <script>
+function SaveEvent() { 
+
+ // Bunlarý kontrol et doðru girdi mi diye ona göre ekraný kapat ya da uyarý mesajý ver
+    document.getElementById("modal-wrapper").style.display="none";
+    var title = document.getElementById("title").value;
+    var content =document.getElementById("content").value;
+    var location =document.getElementById("location").value;
+    var startDate= document.getElementById("startDate").value;
+    var startTime =document.getElementById("appt-startTime").value;
+    var finishTime =document.getElementById("appt-finishTime").value;
+    var repeat =callMethod.tbRepeat.value ;
+    var reminder=callMethod.tbReminder.value ;
+  
+      alert(startDate);
+  
+}
+</script>
+
 <body> 
 
 <!--TABLE-->
