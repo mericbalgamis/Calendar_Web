@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="C:\Users\User\Calendar_Web\Css\index2.css">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+			
+<script language="JavaScript" for=window event=onload>
+
+
+var dDate = new Date();
+var dCurMonth = dDate.getMonth();
+var dCurDayOfMonth = dDate.getDate();
+var dCurYear = dDate.getFullYear();
+var objPrevElement = new Object();
+var dCurDate = new Date();
+
+var modal2 = document.getElementById('modal-wrapperShowEvent');
+
+
+ function SaveEvent() { 
+ // Bunlary kontrol et do?ru girdi mi diye ona göre ekrany kapat ya da uyary mesajy ver
+    document.getElementById("modal-wrapper").style.display="none";
+    var title = document.getElementById("title").value;
+    var content =document.getElementById("content").value;
+    var location =document.getElementById("location").value;
+    var startDate= document.getElementById("startDate").value;
+    var startTime =document.getElementById("appt-startTime").value;
+    var finishTime =document.getElementById("appt-finishTime").value;
+    var repeat =callMethod.tbRepeat.value ;
+    var reminder=callMethod.tbReminder.value ;
+    
+	  
+	    var myObject = {
+		        "id":null, 
+                "title":title,
+				"content": content,
+				"location": location,
+				"start_date": startDate,
+				"start_time":  startTime,
+				"end_date": null,
+				"end_time": finishTime,
+				"repeat": repeat,
+				"reminder": reminder
+				
+				
+				};
+				
+				var  baseurl= "https://immense-coast-39524.herokuapp.com/calendars/1";
+
+$.ajax({
+
+    url:baseurl,
+    type:'GET',
+    dataType:'json',
+    //data : JSON.stringify(myObject),
+    contentType: "application/json; charset=utf-8",
+    success:function(data) {
+      	   alert(startDate);
+
+    }
+
+});
+	  
+	  document.write(JSON.stringify(myObject));
+  
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+        function fToggleColor(myElement) {
+
+                    var toggleColor = "	#800080";
+                    if (myElement.id == "calDateText") {
+                    if (myElement.color == toggleColor && myElement.bgColor != "#FFA500" ) {
+                    myElement.color = "";
+                    } 
+                    else {
+                    myElement.color = toggleColor;
+                       }
+                    } 
+                    else if (myElement.id == "calCell") {
+                    for (var i in myElement.children) {
+                    if (myElement.children[i].id == "calDateText") {
+                    if (myElement.children[i].color == toggleColor&& myElement.bgColor != "#FFA500#FFA500" ) {
+                    myElement.children[i].color = "";
+                    } else {
+                    myElement.children[i].color = toggleColor;
+                    
+                    
+                      }
+                   }
+                }
+             }
+          }
+
+		function fAddEvent(myElement){
+
+		                   
+		                   
+		                    //if event eklenirse
+		                        
+		                   myElement.bgColor = "#FFA500";
+		                      
+		                  //  modal.style.display = "block";
+		                var modal = document.getElementById('modal-wrapper');
+		                 modal.style.display="block";
+		             
+		}
+		function fRepeatTime(repeatValue){
+
+             var repeat= repeatValue;
+		}
+		
+      function fReminder(reminderValue){
+
+             var reminder= reminderValue;
+		}
+		function fSetSelectedDay(myElement){
+						if (myElement.id == "calCell") {
+						if (!isNaN(parseInt(myElement.children["calDateText"].innerText))) {
+						//myElement.bgColor = "#c0c0c0";
+						fAddEvent(myElement);
+						objPrevElement.bgColor = "";
+
+						document.all.calSelectedDate.value = parseInt(myElement.children["calDateText"].innerText);
+						objPrevElement = myElement;
+
+						      }
+						   }
+						}
+						function fGetDaysInMonth(iMonth, iYear) {
+						var dPrevDate = new Date(iYear, iMonth, 0);
+						return dPrevDate.getDate();
+						}
+						function fBuildCal(iYear, iMonth, iDayStyle) {
+						var aMonth = new Array();
+						aMonth[0] = new Array(7);
+						aMonth[1] = new Array(7);
+						aMonth[2] = new Array(7);
+						aMonth[3] = new Array(7);
+						aMonth[4] = new Array(7);
+						aMonth[5] = new Array(7);
+						aMonth[6] = new Array(7);
+						var dCalDate = new Date(iYear, iMonth-1, 1);
+						var iDayOfFirst = dCalDate.getDay();
+						var iDaysInMonth = fGetDaysInMonth(iMonth, iYear);
+						var iVarDate = 1;
+						var i, d, w;
+						if (iDayStyle == 2) {
+
+						aMonth[0][0] = "Sunday";
+						aMonth[0][1] = "Monday";
+						aMonth[0][2] = "Tuesday";
+						aMonth[0][3] = "Wednesday";
+						aMonth[0][4] = "Thursday";
+						aMonth[0][5] = "Friday";
+						aMonth[0][6] = "Saturday";
+						} else if (iDayStyle == 1) {
+						aMonth[0][0] = "Sun";
+						aMonth[0][1] = "Mon";
+						aMonth[0][2] = "Tue";
+						aMonth[0][3] = "Wed";
+						aMonth[0][4] = "Thu";
+						aMonth[0][5] = "Fri";
+						aMonth[0][6] = "Sat";
+						} else {
+						aMonth[0][0] = "Su";
+						aMonth[0][1] = "Mo";
+						aMonth[0][2] = "Tu";
+						aMonth[0][3] = "We";
+						aMonth[0][4] = "Th";
+						aMonth[0][5] = "Fr";
+						aMonth[0][6] = "Sa";
+						}
+						for (d = iDayOfFirst; d < 7; d++) {
+						aMonth[1][d] = iVarDate;
+						iVarDate++;
+						}
+						for (w = 2; w < 7; w++) {
+						for (d = 0; d < 7; d++) {
+						if (iVarDate <= iDaysInMonth) {
+						aMonth[w][d] = iVarDate;
+						iVarDate++;
+						      }
+						   }
+						}
+						return aMonth;
+		}
+		
+		
+		function fDrawCal(iYear, iMonth, iCellWidth, iCellHeight, sDateTextSize, sDateTextWeight, iDayStyle) {
+						var myMonth;
+						myMonth = fBuildCal(iYear, iMonth, iDayStyle);
+
+						document.write("<tr align='center'   > ");
+
+						document.write("<tr> ");
+						document.write("<tr> ");
+
+						document.write("<tr> ");
+						document.write("<tr> ");
+
+						document.write("<tr> ");
+						document.write("<tr> ");
+
+						document.write("<tr> ");
+						document.write("<tr> ");
+
+						document.write("<tr> ");
+						document.write("<tr> ");
+						document.write("<tr> ");
+						document.write("<tr> ");
+						document.write("<tr> ");
+						document.write("<tr> ");
+						document.write("<td align='center' style='FONT-FAMILY:Arial;FONT-SIZE:20px;FONT-WEIGHT: bold'>" + myMonth[0][0] + "</td>");
+						document.write("<td align='center' style='FONT-FAMILY:Arial;FONT-SIZE:20px;FONT-WEIGHT: bold'>" + myMonth[0][1] + "</td>");
+						document.write("<td align='center' style='FONT-FAMILY:Arial;FONT-SIZE:20px;FONT-WEIGHT: bold'>" + myMonth[0][2] + "</td>");
+						document.write("<td align='center' style='FONT-FAMILY:Arial;FONT-SIZE:20px;FONT-WEIGHT: bold'>" + myMonth[0][3] + "</td>");
+						document.write("<td align='center' style='FONT-FAMILY:Arial;FONT-SIZE:20px;FONT-WEIGHT: bold'>" + myMonth[0][4] + "</td>");
+						document.write("<td align='center' style='FONT-FAMILY:Arial;FONT-SIZE:20px;FONT-WEIGHT: bold'>" + myMonth[0][5] + "</td>");
+						document.write("<td align='center' style='FONT-FAMILY:Arial;FONT-SIZE:20px;FONT-WEIGHT: bold'>" + myMonth[0][6] + "</td>");
+						document.write("</tr>");
+						for (w = 1; w < 7; w++) {
+						document.write("<tr>")
+						for (d = 0; d < 7; d++) {
+						document.write("<td align='left' valign='top' width='" + iCellWidth + "' height='" + iCellHeight + "' id=calCell style='CURSOR:Hand' onMouseOver='fToggleColor(this)' onMouseOut='fToggleColor(this)' onclick=fSetSelectedDay(this)>");
+						if (!isNaN(myMonth[w][d])) {
+						document.write("<font id=calDateText onMouseOver='fToggleColor(this)' style='CURSOR:Hand;FONT-FAMILY:Arial;FONT-SIZE:" + sDateTextSize + ";FONT-WEIGHT:" + sDateTextWeight + "' onMouseOut='fToggleColor(this)' onclick=fSetSelectedDay(this)>" + myMonth[w][d] + "</font>");
+						} else {
+						document.write("<font id=calDateText onMouseOver='fToggleColor(this)' style='CURSOR:Hand;FONT-FAMILY:Arial;FONT-SIZE:" + sDateTextSize + ";FONT-WEIGHT:" + sDateTextWeight + "' onMouseOut='fToggleColor(this)' onclick=fSetSelectedDay(this)> </font>");
+						}
+						document.write("</td>")
+						}
+						document.write("</tr>");
+						}
+
+		}
+		function fUpdateCal(iYear, iMonth) {
+					myMonth = fBuildCal(iYear, iMonth);
+					objPrevElement.bgColor = "";
+					document.all.calSelectedDate.value = "";
+					for (w = 1; w < 7; w++) {
+					for (d = 0; d < 7; d++) {
+					if (!isNaN(myMonth[w][d])) {
+					calDateText[((7*w)+d)-7].innerText = myMonth[w][d];
+					} else {
+					calDateText[((7*w)+d)-7].innerText = " ";
+					         }
+					      }
+					   }
+		}
+		
+	
+	
+		
+		var modalSearch = document.getElementById('modal-wrapperShowEvent');
+  window.onclick = function(event) {
+    if (event.target == modalSearch) {
+        modalSearch.style.display = "none";
+    }
+}
+// End -->
+//pop-up
+ var modalSave = document.getElementById('modal-wrapperSaveEvent');
+ window.onclick = function(event2) {
+     if (event2.target == modalSave) {
+           modalSave.style.display="none";
+     }
+ }
+
+// End -->
+</script>
+
+
+</head>
+
+<body background="C:\Users\User\Calendar_Web\pictures\back3.jpg">
+
+<!--Eventlerin liste halinde gösterilece?i buton-->
+<button onclick="document.getElementById('modal-wrapperShowEvent').style.display='block'" style="width:200px; margin-top:30px; margin-right:80px;">
+Show Event
+</button>
+
+
+<!--Save buton-->
+
+
+<div id="modal-wrapperShowEvent" class="modal">
+  
+  <form class="modal-content animate" action="/action_page.php">
+        
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('modal-wrapperShowEvent').style.display='none'" class="close" title="Close PopUp">&times;</span>
+      <img src="C:\Users\User\Calendar_Web\pictures\eve.png" alt="avatarSearch" class="avatarSearch">
+      <h1 style="text-align:center">My Appointments</h1>
+    </div>
+
+    <div class="container" align='center' >
+      <input type="text" placeholder="List" name="uname">
+    
+    </div>
+    
+  </form>
+  
+</div>
+
+
+<!--POP-UP-->
+<div id="modal-wrapper" class="modal">
+ 
+  <form class="modal-content animate" action="" name="callMethod" method="post">
+  <!--Menu name-->
+        <div class="imgcontainer">
+              <span onclick="document.getElementById('modal-wrapper').style.display='none'" class="close" title="Close PopUp">&times;</span>
+              <img src="C:\Users\User\Calendar_Web\pictures\event2.png" alt="Avatar" class="avatar">
+              <h1 style="text-align:center">Add Event!</h1>
+        </div>
+         <!--Title-->
+        <div class="container" align='center'>
+        <label for="appt-title">Title:</label>
+               <input type="title" placeholder="Title" name="title" id="title">
+        </div>
+          <!--Content-->
+        <div class="container" align='center'>
+         <label for="appt-content">Content:</label>
+             <input type="content" placeholder="Content" name="content" id="content">
+        </div>
+        
+         <!--Location-->
+        <div class="container" align='center'>
+         <label for="appt-location">Location:</label>
+             <input type="content" placeholder="Location" name="location" id="location" >
+        </div>
+        
+          <!--StartDate-->
+        <div class="container" align='center'>
+         <label for="appt-startDate">Start Date:</label>
+             <!----<input type="content" placeholder="StartTime" name="start"> -->
+             <input type="date" name="StartDate" max="2030-12-31" id ="startDate">        
+        </div>    
+    
+    
+        
+          <!--Start-->
+        <div class="container" align='center'>
+         <label for="appt-startTime">Start Time:</label>
+             <!----<input type="content" placeholder="StartTime" name="start"> -->
+             <input type="time"name="appt-startTime"  id="appt-startTime" 
+               min="9:00" max="18:00" required / >
+             
+        </div>
+           <!--Finish-->
+        <div class="container" align='center'>
+         <label for="appt-finishTime">Finish Time:</label>
+            <input type="time" name="appt-finishTime" id="appt-finishTime" 
+               min="9:00" max="18:00" required />
+        </div >
+         <!--Repeat-->
+        <div align='center'>
+         <label for="appt-repeat">Repeat:</label>
+         <select size="1" name="tbRepeat" onchange='fRepeatTime(callMethod.tbRepeat.value  )' >
+           
+                <option value="Every Day">Every Day</option>
+                <option value="Every Week">Every Week</option>
+                <option value="Every Month">Every Month</option>
+                <option value="Every Year">Every Year</option>
+                <option value="Never">Never</option>
+                
+                </select>
+        </div >
+          <!--Reminder-->
+         <div align='center'>
+          <label for="appt-reminder">Reminder:</label>
+         <select size="1" name="tbReminder" onchange='fReminder(callMethod.tbReminder.value  )' >
+               <h1 style="text-align:Left">Repeat:</h1>
+                <option value="Never">Never</option>
+                <option value="At the Event Time">At the Event Time</option>
+                <option value="5 Minutes Ago">5 Minutes Ago</option>
+                <option value="10 Minutes Ago">10 Minutes Ago</option>
+                <option value="15 Minutes Ago">15 Minutes Ago</option>
+                <option value="30 Minutes Ago">30 Minutes Ago</option>
+                <option value="1 Hour Ago">1 Hour Ago</option> 
+                <option value="2 Hour Ago">2 Hour Ago</option>
+                <option value="1 Day Ago">1 Day Ago</option>  
+                <option value="2 Day Ago">2 Day Ago</option>  
+                <option value="1 Month Ago">1 Month  Ago</option>  
+                </select>
+        </div >
+         
+         
+         
+        <!--Save-->
+        <div  id="modal-wrapper" class="container" align='center'>
+         <button onclick="SaveEvent()" style="width:250px; margin-top:5px; ">Save</button>
+        </div>
+     
+     
+
+  </div>
+ 
+  <!--Show Event-->
+ <div id="modal-wrapperShowEvent" class="modal">
+ 
+  <form class="modal-content animate" action="/action_page.php"name="callMethod" method="post">
+    <span onclick="document.getElementById('modal-wrapperShowEvent').style.display='block'" >&times;</span>
+   
+    </form>
+    
+  </div>
+
+<script language="JavaScript" for=window event=onload>
+<!-- Begin
+var dCurDate = new Date();
+frmCalendarSample.tbSelMonth.options[dCurDate.getMonth()].selected = true;
+for (i = 0; i < frmCalendarSample.tbSelYear.length; i++)
+if (frmCalendarSample.tbSelYear.options[i].value == dCurDate.getFullYear())
+frmCalendarSample.tbSelYear.options[i].selected = true;
+//  End -->
+</script>
+
+<form name="frmCalendarSample" method="post" action="">
+<input type="hidden" name="calSelectedDate" value="">
+
+<div class="mouth-year select" style="width:800pxs; "style="height:800px;" align='center' >
+
+      <table  border="18" table width="1000" table height="200" >
+               
+                <select size="1" name="tbSelMonth" onchange='fUpdateCal(frmCalendarSample.tbSelYear.value, frmCalendarSample.tbSelMonth.value)'>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+                </select>
+
+                <select wight ="3"  name="tbSelYear" onchange='fUpdateCal(frmCalendarSample.tbSelYear.value, frmCalendarSample.tbSelMonth.value)'>
+                <option value="1990">1990</option>
+                <option value="1991">1991</option>
+                <option value="1992">1992</option>
+                <option value="1993">1993</option>
+                <option value="1994">1994</option>
+                <option value="1995">1995</option>
+
+                <option value="1996">1996</option>
+                <option value="1997">1997</option>
+                <option value="1998">1998</option>
+                <option value="1999">1999</option>
+                <option value="2000">2000</option>
+
+                <option value="2001">2001</option>
+                <option value="2002">2002</option>
+                <option value="2003">2003</option>
+                <option value="2004">2004</option>
+                <option value="2005">2005</option>
+
+                <option value="2006">2006</option>
+                <option value="2007">2007</option>
+                <option value="2008">2008</option>
+                <option value="2009">2009</option>
+                <option value="2010">2010</option>
+
+                <option value="2011">2011</option>
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+
+             </select>
+      </div>
+              <script language="JavaScript">
+              var dCurDate = new Date();
+              fDrawCal(dCurDate.getFullYear(), dCurDate.getMonth()+1, 60, 60, "30px", "bold");
+              </script>
+     </table>
+
+
+</body>
+</html>
