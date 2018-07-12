@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<title></title>
+
 <link rel="stylesheet" href="C:\Users\User\Calendar_Web\Css\index2.css">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-			
-<script language="JavaScript" for=window event=onload>
+		
+<script  language="JavaScript" for=window event=onload>
 
 
 var dDate = new Date();
@@ -24,44 +27,43 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
     var content =document.getElementById("content").value;
     var location =document.getElementById("location").value;
     var startDate= document.getElementById("startDate").value;
+	 var endDate= document.getElementById("endDate").value;
     var startTime =document.getElementById("appt-startTime").value;
     var finishTime =document.getElementById("appt-finishTime").value;
     var repeat =callMethod.tbRepeat.value ;
     var reminder=callMethod.tbReminder.value ;
     
 	  
-	    var myObject = {
-		        "id":null, 
-                "title":title,
+	var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
+			//var baseUrl = "http://localhost:3000/calendars";
+
+
+  			var myObject = {
+				"id": 1,
+				"title": title,
 				"content": content,
-				"location": location,
+				"location":location,
 				"start_date": startDate,
-				"start_time":  startTime,
-				"end_date": null,
+				"start_time": startTime,
+				"end_date":  endDate,
 				"end_time": finishTime,
 				"repeat": repeat,
-				"reminder": reminder
-				
-				
+				"reminder": reminder,
 				};
-				
-				var  baseurl= "https://immense-coast-39524.herokuapp.com/calendars/1";
 
-$.ajax({
+ 	 $.ajax({
 
-    url:baseurl,
-    type:'GET',
-    dataType:'json',
-    //data : JSON.stringify(myObject),
-    contentType: "application/json; charset=utf-8",
-    success:function(data) {
-      	   alert(startDate);
-
-    }
-
-});
+      url:baseUrl,
+      type:'POST',
+      dataType:'json',
+      data : JSON.stringify(myObject),
+      contentType: "application/json; charset=utf-8",
+      success:function(data) {
 	  
-	  document.write(JSON.stringify(myObject));
+        console.log("data is added");
+      }
+  });
+
   
 }
  
@@ -85,7 +87,7 @@ $.ajax({
                     else if (myElement.id == "calCell") {
                     for (var i in myElement.children) {
                     if (myElement.children[i].id == "calDateText") {
-                    if (myElement.children[i].color == toggleColor&& myElement.bgColor != "#FFA500#FFA500" ) {
+                    if (myElement.children[i].color == toggleColor&& myElement.bgColor != "#FFA500" ) {
                     myElement.children[i].color = "";
                     } else {
                     myElement.children[i].color = toggleColor;
@@ -339,11 +341,16 @@ Show Event
           <!--StartDate-->
         <div class="container" align='center'>
          <label for="appt-startDate">Start Date:</label>
-             <!----<input type="content" placeholder="StartTime" name="start"> -->
+             <!----<input type="content" placeholder="StartData" name="start"> -->
              <input type="date" name="StartDate" max="2030-12-31" id ="startDate">        
         </div>    
     
-    
+      <!--EndDate-->
+        <div class="container" align='center'>
+         <label for="appt-endDate">End Date:</label>
+             <!----<input type="content" placeholder="EndTime" name="end"> -->
+             <input type="date" name="EndDate" max="2030-12-31" id ="endDate">        
+        </div>  
         
           <!--Start-->
         <div class="container" align='center'>
