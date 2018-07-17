@@ -18,8 +18,13 @@ var objPrevElement = new Object();
 var dCurDate = new Date();
 
 var modal2 = document.getElementById('modal-wrapperShowEvent');
-
-
+ function SearchEvent(title) { 
+ 
+ 
+   console.log("title"+title);
+ 
+ }
+ 
  function SaveEvent() { 
  // Bunlary kontrol et do?ru girdi mi diye ona göre ekrany kapat ya da uyary mesajy ver
   // 
@@ -273,12 +278,13 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
 	
 	
 		
-		var modalSearch = document.getElementById('modal-wrapperShowEvent');
+		var modalShow = document.getElementById('modal-wrapperShowEvent');
   window.onclick = function(event) {
-    if (event.target == modalSearch) {
-        modalSearch.style.display = "none";
+    if (event.target == modalShow) {
+        modalShow.style.display = "none";
     }
 }
+
 // End -->
 //pop-up
  var modalSave = document.getElementById('modal-wrapperSaveEvent');
@@ -333,7 +339,7 @@ Search Event
 
 <div id="modal-wrapperSearchEvent" class="modal">
   
-  <form class="modal-content animate" action="/action_page.php">
+  <form class="modal-content animate">
         
     <div class="imgcontainer">
       <span onclick="document.getElementById('modal-wrapperSearchEvent').style.display='none'" class="close" title="Close PopUp">&times;</span>
@@ -345,7 +351,10 @@ Search Event
       <input type="text" placeholder="Event Name" id="eventName">
     
     </div>
-    
+      <!--Save-->
+        <div  id="modal-wrapperSearchEvent" class="container" align='right'>
+         <button onclick="SearchEvent('22')" style="width:100px; margin-top:5px; ">Search</button>
+        </div>
   </form>
   
 </div>
