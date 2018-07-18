@@ -22,30 +22,30 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
 
 function SaveEvent() { 
  // Bunlary kontrol et do?ru girdi mi diye ona göre ekrany kapat ya da uyary mesajy ver
-    document.getElementById("modal-wrapper").style.display="none";
+  // 
+	
     var title = document.getElementById("title").value;
     var content =document.getElementById("content").value;
     var location =document.getElementById("location").value;
     var startDate= document.getElementById("startDate").value;
 	var endDate= document.getElementById("endDate").value;
     var startTime =document.getElementById("appt-startTime").value;
-    var finishTime =document.getElementById("appt-finishTime").value;
-    var repeat =callMethod.tbRepeat.value ;
-    var reminder=callMethod.tbReminder.value ;
+    var finishTime =document.getElementById("appt-finishTime" ).value;
+    var repeat =document.getElementById("repeat").value;
+    var reminder=document.getElementById("reminder" ).value;
     
-	  
 	var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
 			//var baseUrl = "http://localhost:3000/calendars";
 
 
   			var myObject = {
-				"id": 1,
+				"id": 45,
 				"title": title,
-				"content": content,
+				"content":content,
 				"location":location,
 				"start_date": startDate,
-				"start_time": startTime,
-				"end_date":  endDate,
+				"start_time":  startTime,
+				"end_date": endDate,
 				"end_time": finishTime,
 				"repeat": repeat,
 				"reminder": reminder
@@ -68,7 +68,21 @@ function SaveEvent() {
       }
   });
 
-  
+	    console.log(repeat);
+		  console.log(reminder);
+   document.getElementById("modal-wrapper").style.display="none";
+   
+   
+   
+    document.getElementById("title").value="";
+    document.getElementById("content").value="";
+    document.getElementById("location").value="";
+    document.getElementById("startDate").value="";
+	document.getElementById("endDate").value="";
+    document.getElementById("appt-startTime").value="";
+    document.getElementById("appt-finishTime" ).value="";
+    document.getElementById("repeat").value="Every Day";
+    document.getElementById("reminder" ).value="Never";
 }
  
  
@@ -91,7 +105,7 @@ function SaveEvent() {
                     else if (myElement.id == "calCell") {
                     for (var i in myElement.children) {
                     if (myElement.children[i].id == "calDateText") {
-                    if (myElement.children[i].color == toggleColor&& myElement.bgColor != "#FFA500" ) {
+                    if (myElement.children[i].color == toggleColor&& myElement.bgColor != "#FFA500#FFA500" ) {
                     myElement.children[i].color = "";
                     } else {
                     myElement.children[i].color = toggleColor;
@@ -274,7 +288,7 @@ function SaveEvent() {
  var modalSave = document.getElementById('modal-wrapperSaveEvent');
  window.onclick = function(event2) {
      if (event2.target == modalSave) {
-           modalSave.style.display="none";
+         //  modalSave.style.display="none";
      }
  }
 
@@ -286,11 +300,17 @@ function SaveEvent() {
 
 <body background="C:\Users\User\Calendar_Web\pictures\back3.jpg">
 
+
+
+
+
 <!--Eventlerin liste halinde gösterilece?i buton-->
 <button onclick="document.getElementById('modal-wrapperShowEvent').style.display='block'" style="width:200px; margin-top:30px; margin-right:80px;">
 Show Event
 </button>
-
+<button onclick="document.getElementById('modal-wrapperSearchEvent').style.display='block'" style="width:200px; margin-top:30px; margin-right:80px;">
+Search Event
+</button>
 
 <!--Save buton-->
 
@@ -354,6 +374,28 @@ Show Event
 </div>
 
 
+<div id="modal-wrapperSearchEvent" class="modal">
+  
+  <form class="modal-content animate" action="/action_page.php">
+        
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('modal-wrapperSearchEvent').style.display='none'" class="close" title="Close PopUp">&times;</span>
+      <img src="C:\Users\User\Calendar_Web\pictures\search.png" alt="avatarSearch" class="avatarSearch">
+      <h1 style="text-align:center">Search Event</h1>
+    </div>
+
+    <div class="container" align='center' >
+      <input type="text" placeholder="Event Name" id="eventName">
+    
+    </div>
+    
+  </form>
+  
+</div>
+
+
+
+
 <!--POP-UP-->
 <div id="modal-wrapper" class="modal">
  
@@ -399,20 +441,20 @@ Show Event
         <div class="container" align='center'>
          <label for="appt-startTime">Start Time:</label>
              <!----<input type="content" placeholder="StartTime" name="start"> -->
-             <input type="time"name="appt-startTime"  id="appt-startTime" 
+             <input type="time" id="appt-startTime" 
                min="9:00" max="18:00" required / >
              
         </div>
            <!--Finish-->
         <div class="container" align='center'>
          <label for="appt-finishTime">Finish Time:</label>
-            <input type="time" name="appt-finishTime" id="appt-finishTime" 
+            <input type="time"  id="appt-finishTime" 
                min="9:00" max="18:00" required />
         </div >
          <!--Repeat-->
         <div align='center'>
          <label for="appt-repeat">Repeat:</label>
-         <select size="1" name="tbRepeat" onchange='fRepeatTime(callMethod.tbRepeat.value  )' >
+         <select size="1" name="tbRepeat" id="repeat"  >
            
                 <option value="Every Day">Every Day</option>
                 <option value="Every Week">Every Week</option>
@@ -425,7 +467,7 @@ Show Event
           <!--Reminder-->
          <div align='center'>
           <label for="appt-reminder">Reminder:</label>
-         <select size="1" name="tbReminder" onchange='fReminder(callMethod.tbReminder.value  )' >
+         <select size="1" name="tbReminder" id="reminder" >
                <h1 style="text-align:Left">Repeat:</h1>
                 <option value="Never">Never</option>
                 <option value="At the Event Time">At the Event Time</option>
@@ -461,6 +503,17 @@ Show Event
     </form>
     
   </div>
+  
+  <div id="modal-wrapperSearchEvent" class="modal">
+ 
+  <form class="modal-content animate" action="/action_page.php"name="callMethod" method="post">
+    <span onclick="document.getElementById('modal-wrapperSearchEvent').style.display='block'" >&times;</span>
+   
+    </form>
+    
+  </div>
+  
+  
 
 <script language="JavaScript" for=window event=onload>
 <!-- Begin
