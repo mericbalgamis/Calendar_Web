@@ -20,14 +20,14 @@ var dCurDate = new Date();
 var modal2 = document.getElementById('modal-wrapperShowEvent');
 
 
- function SaveEvent() { 
+function SaveEvent() { 
  // Bunlary kontrol et do?ru girdi mi diye ona göre ekrany kapat ya da uyary mesajy ver
     document.getElementById("modal-wrapper").style.display="none";
     var title = document.getElementById("title").value;
     var content =document.getElementById("content").value;
     var location =document.getElementById("location").value;
     var startDate= document.getElementById("startDate").value;
-	 var endDate= document.getElementById("endDate").value;
+	var endDate= document.getElementById("endDate").value;
     var startTime =document.getElementById("appt-startTime").value;
     var finishTime =document.getElementById("appt-finishTime").value;
     var repeat =callMethod.tbRepeat.value ;
@@ -48,9 +48,13 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
 				"end_date":  endDate,
 				"end_time": finishTime,
 				"repeat": repeat,
-				"reminder": reminder,
+				"reminder": reminder
 				};
+				
+				
+				alert(baseUrl);
 
+				
  	 $.ajax({
 
       url:baseUrl,
@@ -98,7 +102,7 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
                 }
              }
           }
-
+		  
 		function fAddEvent(myElement){
 
 		                   
@@ -302,11 +306,50 @@ Show Event
     </div>
 
     <div class="container" align='center' >
-      <input type="text" placeholder="List" name="uname">
-    
+	<!-- MERİÇ -->
+	<script type="text/javascript">
+	
+		var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
+		var eventArray;
+	
+		$.ajax({
+			type: 'GET',
+			url: baseUrl,
+			data: eventArray,
+			beforeSend: function (xhr) {
+				if (xhr && xhr.overrideMimeType) {
+				xhr.overrideMimeType('application/json;charset=utf-8');
+				}
+			},
+			dataType: 'json',
+			success: function (eventArray) {
+					
+				
+					for(var item in eventArray) {
+						var ul = document.getElementById("event_list");
+						var li = document.createElement("li");
+						var a = document.createElement("a");
+						a.href = "eventInfo.html?id="+eventArray[item].id;
+						//a.onclick = eventInfo(eventArray[item]);
+						a.text = eventArray[item].title;
+						li.appendChild(a);
+						ul.appendChild(li);
+						
+					}	
+					
+					
+
+			}
+		});
+			
+	</script> 
+		<!-- MERİÇ -->
+
+      <ul id="event_list"></ul>
+	  
     </div>
-    
-  </form>
+
+	</form>
   
 </div>
 
@@ -317,7 +360,7 @@ Show Event
   <form class="modal-content animate" action="" name="callMethod" method="post">
   <!--Menu name-->
         <div class="imgcontainer">
-              <span onclick="document.getElementById('modal-wrapper').style.display='none'" class="close" title="Close PopUp">&times;</span>
+              <span onclick="document.getElementById('modal-wrapper').style.display='none'" class="closeclose" title="Close PopUp">&times;</span>
               <img src="C:\Users\User\Calendar_Web\pictures\event2.png" alt="Avatar" class="avatar">
               <h1 style="text-align:center">Add Event!</h1>
         </div>
@@ -406,13 +449,13 @@ Show Event
         </div>
      
      
-
+	</form>
   </div>
  
   <!--Show Event-->
  <div id="modal-wrapperShowEvent" class="modal">
  
-  <form class="modal-content animate" action="/action_page.php"name="callMethod" method="post">
+  <form class="modal-content animate" action="/action_page.php" name="callMethod" method="post">
     <span onclick="document.getElementById('modal-wrapperShowEvent').style.display='block'" >&times;</span>
    
     </form>

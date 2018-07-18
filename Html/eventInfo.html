@@ -1,0 +1,215 @@
+<html>
+<head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<link rel="stylesheet" href="C:\Users\User\Calendar_Web\Css\index2.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<script>
+
+var url = window.location.href;
+var position = url.indexOf("id");
+
+var id = url.substring(position+3, url.length);	//id=25 for example
+console.log(id)
+
+var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/"+id;
+		var event;
+	
+		$.ajax({
+			type: 'GET',
+			url: baseUrl,
+			data: event,
+			beforeSend: function (xhr) {
+				if (xhr && xhr.overrideMimeType) {
+				xhr.overrideMimeType('application/json;charset=utf-8');
+				}
+			},
+			dataType: 'json',
+			success: function (event) {
+					
+					console.log(event);
+					
+				    document.getElementById("title").value = event.title;
+					document.getElementById("content").value = event.content;
+					document.getElementById("location").value = event.location;
+					document.getElementById("startDate").value = event.start_date;
+					document.getElementById("endDate").value = event.end_date;
+					document.getElementById("appt-startTime").value = event.start_time;
+					document.getElementById("appt-finishTime").value = event.end_time;
+					document.getElementById("repeat").value = event.repeat;
+					document.getElementById("reminder").value = event.reminder;
+	
+
+					
+					
+					
+	
+			}
+		});
+		
+		
+		function SaveEvent() { 
+
+    document.getElementById("modal-wrapper").style.display="none";
+    var title = document.getElementById("title").value;
+    var content =document.getElementById("content").value;
+    var location =document.getElementById("location").value;
+    var startDate= document.getElementById("startDate").value;
+	var endDate= document.getElementById("endDate").value;
+    var startTime =document.getElementById("appt-startTime").value;
+    var finishTime =document.getElementById("appt-finishTime").value;
+    var repeat =callMethod.tbRepeat.value ;
+    var reminder=callMethod.tbReminder.value ;
+    
+	  
+	var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
+			//var baseUrl = "http://localhost:3000/calendars";
+
+
+  			var myObject = {
+				"title": title,
+				"content": content,
+				"location":location,
+				"start_date": startDate,
+				"start_time": startTime,
+				"end_date":  endDate,
+				"end_time": finishTime,
+				"repeat": repeat,
+				"reminder": reminder
+				};
+				
+
+		
+ 	 $.ajax({
+
+      url:baseUrl,
+      type:'POST',
+      dataType:'json',
+      data : JSON.stringify(myObject),
+      contentType: "application/json; charset=utf-8",
+      success:function(data) {
+	  
+		console.log("data is added");
+      }
+  });
+
+  
+}
+		
+		
+
+</script>
+
+  <form class="modal-content animate" action="" name="callMethod" method="post">
+
+
+	
+         <!--Title-->
+        <div class="container" align='center'>
+        <label for="appt-title">Title:</label>
+               <input type="title" placeholder="Title" name="title" id="title">
+        </div>
+          <!--Content-->
+        <div class="container" align='center'>
+         <label for="appt-content">Content:</label>
+             <input type="content" placeholder="Content" name="content" id="content">
+        </div>
+        
+         <!--Location-->
+        <div class="container" align='center'>
+         <label for="appt-location">Location:</label>
+             <input type="content" placeholder="Location" name="location" id="location" >
+        </div>
+        
+          <!--StartDate-->
+        <div class="container" align='center'>
+         <label for="appt-startDate">Start Date:</label>
+             <!----<input type="content" placeholder="StartData" name="start"> -->
+             <input type="date" name="StartDate" max="2030-12-31" id ="startDate">        
+        </div>    
+    
+      <!--EndDate-->
+        <div class="container" align='center'>
+         <label for="appt-endDate">End Date:</label>
+             <!----<input type="content" placeholder="EndTime" name="end"> -->
+             <input type="date" name="EndDate" max="2030-12-31" id ="endDate">        
+        </div>  
+        
+          <!--Start-->
+        <div class="container" align='center'>
+         <label for="appt-startTime">Start Time:</label>
+             <!----<input type="content" placeholder="StartTime" name="start"> -->
+             <input type="time"name="appt-startTime"  id="appt-startTime" 
+               min="9:00" max="18:00" required / >
+             
+        </div>
+           <!--Finish-->
+        <div class="container" align='center'>
+         <label for="appt-finishTime">Finish Time:</label>
+            <input type="time" name="appt-finishTime" id="appt-finishTime" 
+               min="9:00" max="18:00" required />
+        </div >
+         <!--Repeat-->
+        <div align='center'>
+         <label for="appt-repeat">Repeat:</label>
+         <select size="1" name="tbRepeat" id="repeat" onchange='fRepeatTime(callMethod.tbRepeat.value  )' >
+           
+                <option value="Every Day">Every Day</option>
+                <option value="Every Week">Every Week</option>
+                <option value="Every Month">Every Month</option>
+                <option value="Every Year">Every Year</option>
+                <option value="Never">Never</option>
+                
+                </select>
+        </div >
+          <!--Reminder-->
+         <div align='center'>
+          <label for="appt-reminder">Reminder:</label>
+         <select size="1" name="tbReminder" id="reminder" onchange='fReminder(callMethod.tbReminder.value  )' >
+               <h1 style="text-align:Left">Repeat:</h1>
+                <option value="Never">Never</option>
+                <option value="At the Event Time">At the Event Time</option>
+                <option value="5 Minutes Ago">5 Minutes Ago</option>
+                <option value="10 Minutes Ago">10 Minutes Ago</option>
+                <option value="15 Minutes Ago">15 Minutes Ago</option>
+                <option value="30 Minutes Ago">30 Minutes Ago</option>
+                <option value="1 Hour Ago">1 Hour Ago</option> 
+                <option value="2 Hour Ago">2 Hour Ago</option>
+                <option value="1 Day Ago">1 Day Ago</option>  
+                <option value="2 Day Ago">2 Day Ago</option>  
+                <option value="1 Month Ago">1 Month  Ago</option>  
+                </select>
+        </div >
+            
+        <!--Save-->
+        <div  id="modal-wrapper" class="container" align='center'>
+         <button onclick="SaveEvent()" style="width:250px; margin-top:5px; ">Save</button>
+        </div>
+
+</form>
+
+<script>
+
+
+
+function fRepeatTime(repeatValue){
+
+             var repeat= repeatValue;
+		}
+		
+      function fReminder(reminderValue){
+
+             var reminder= reminderValue;
+		}
+
+</script>
+
+
+
+
+
+</body>
+</html> 
