@@ -17,15 +17,21 @@ var dCurYear = dDate.getFullYear();
 var objPrevElement = new Object();
 var dCurDate = new Date();
 
+var addingEvent;
+
 var modal2 = document.getElementById('modal-wrapperShowEvent');
- function SearchEvent(title) { 
+
+function SearchEvent() { 
  
- 
-   console.log("title"+title);
- 
- }
- 
- function SaveEvent() { 
+       var search = document.getElementById("search").value;
+	      //    alert(search);
+   document.getElementById("modal-wrapperSearchEvent").style.display="none";
+document.getElementById("search").value="";
+}
+
+
+function SaveEvent(Date) { 
+
  // Bunlary kontrol et do?ru girdi mi diye ona göre ekrany kapat ya da uyary mesajy ver
   // 
 	
@@ -53,9 +59,13 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
 				"end_date": endDate,
 				"end_time": finishTime,
 				"repeat": repeat,
-				"reminder": reminder,
+				"reminder": reminder
 				};
+				
+				
+				//alert(baseUrl);
 
+				
  	 $.ajax({
 
       url:baseUrl,
@@ -64,10 +74,10 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
       data : JSON.stringify(myObject),
       contentType: "application/json; charset=utf-8",
       success:function(data) {
-	  
         console.log("data is added");
       }
   });
+	    fAddEventColor();
 
 	    console.log(repeat);
 		  console.log(reminder);
@@ -93,11 +103,14 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
  
  
         function fToggleColor(myElement) {
+		
 
+     
                     var toggleColor = "	#800080";
                     if (myElement.id == "calDateText") {
-                    if (myElement.color == toggleColor && myElement.bgColor != "#FFA500" ) {
+                    if (myElement.color == toggleColor &&  (myElement.bgColor != "#FFA500" || myElement.bgColor != "#008000" ) ) {
                     myElement.color = "";
+					//alert("1.if");
                     } 
                     else {
                     myElement.color = toggleColor;
@@ -106,29 +119,42 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
                     else if (myElement.id == "calCell") {
                     for (var i in myElement.children) {
                     if (myElement.children[i].id == "calDateText") {
-                    if (myElement.children[i].color == toggleColor&& myElement.bgColor != "#FFA500#FFA500" ) {
+                    if (myElement.children[i].color == toggleColor&& (myElement.bgColor != "#FFA500" || myElement.bgColor != "#008000" )){
                     myElement.children[i].color = "";
+					//alert("2.if");
                     } else {
                     myElement.children[i].color = toggleColor;
-                    
+                 
                     
                       }
                    }
                 }
              }
           }
-
+		  
 		function fAddEvent(myElement){
 
 		                   
 		                   
 		                    //if event eklenirse
-		                        
+		                    addingEvent=myElement;    
 		                   myElement.bgColor = "#FFA500";
 		                      
 		                  //  modal.style.display = "block";
 		                var modal = document.getElementById('modal-wrapper');
 		                 modal.style.display="block";
+		             
+		}
+		function fAddEventColor(){
+
+		                   
+		               //    alert(myElement);
+		                    //if event eklenirse
+		                        
+		                   addingEvent.bgColor = "#008000";
+		                      
+		                  //  modal.style.display = "block";
+		               
 		             
 		}
 		function fRepeatTime(repeatValue){
@@ -145,6 +171,8 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
 						if (!isNaN(parseInt(myElement.children["calDateText"].innerText))) {
 						//myElement.bgColor = "#c0c0c0";
 						fAddEvent(myElement);
+						if( myElement.bgColor == "#008000" )
+						alert("burda");
 						objPrevElement.bgColor = "";
 
 						document.all.calSelectedDate.value = parseInt(myElement.children["calDateText"].innerText);
@@ -284,7 +312,12 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
         modalShow.style.display = "none";
     }
 }
-
+		var modalSearch = document.getElementById('modal-wrapperSearchEvent');
+  window.onclick = function(event3) {
+    if (event3.target == modalSearch ) {
+      //  modalSearch .style.display = "none";
+    }
+}
 // End -->
 //pop-up
  var modalSave = document.getElementById('modal-wrapperSaveEvent');
@@ -310,12 +343,16 @@ var modal2 = document.getElementById('modal-wrapperShowEvent');
 <button onclick="document.getElementById('modal-wrapperShowEvent').style.display='block'" style="width:200px; margin-top:30px; margin-right:80px;">
 Show Event
 </button>
+
+
 <button onclick="document.getElementById('modal-wrapperSearchEvent').style.display='block'" style="width:200px; margin-top:30px; margin-right:80px;">
 Search Event
 </button>
 
-<!--Save buton-->
 
+
+
+<!--My Appointments-->
 
 <div id="modal-wrapperShowEvent" class="modal">
   
@@ -325,36 +362,68 @@ Search Event
       <span onclick="document.getElementById('modal-wrapperShowEvent').style.display='none'" class="close" title="Close PopUp">&times;</span>
       <img src="C:\Users\User\Calendar_Web\pictures\eve.png" alt="avatarSearch" class="avatarSearch">
       <h1 style="text-align:center">My Appointments</h1>
+	  
+	  
+	  
     </div>
 
+
+		
+	
+	
+	
+	
     <div class="container" align='center' >
-      <input type="text" placeholder="List" name="uname">
-    
+	<!-- MERİÇ -->
+	<script type="text/javascript">
+	
+		var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
+		var eventArray;
+	
+		$.ajax({
+			type: 'GET',
+			url: baseUrl,
+			data: eventArray,
+			beforeSend: function (xhr) {
+				if (xhr && xhr.overrideMimeType) {
+				xhr.overrideMimeType('application/json;charset=utf-8');
+				}
+			},
+			dataType: 'json',
+			success: function (eventArray) {
+					
+				
+					for(var item in eventArray) {
+						var ul = document.getElementById("event_list");
+						var li = document.createElement("li");
+						var a = document.createElement("a");
+						a.href = "eventInfo.html?id="+eventArray[item].id;
+						//a.onclick = eventInfo(eventArray[item]);
+						a.text = eventArray[item].title;
+						li.appendChild(a);
+						ul.appendChild(li);
+						
+					}	
+					
+					
+
+			}
+		});
+			
+	</script> 
+		<!-- MERİÇ -->
+
+      <ul id="event_list"></ul>
+	  
     </div>
-    
-  </form>
+
+	</form>
   
 </div>
 
 
-<div id="modal-wrapperSearchEvent" class="modal">
-  
-  <form class="modal-content animate">
-        
-    <div class="imgcontainer">
-      <span onclick="document.getElementById('modal-wrapperSearchEvent').style.display='none'" class="close" title="Close PopUp">&times;</span>
-      <img src="C:\Users\User\Calendar_Web\pictures\search.png" alt="avatarSearch" class="avatarSearch">
-      <h1 style="text-align:center">Search Event</h1>
-    </div>
 
-    <div class="container" align='center' >
-      <input type="text" placeholder="Event Name" id="eventName">
-    
-    </div>
-      <!--Save-->
-        <div  id="modal-wrapperSearchEvent" class="container" align='right'>
-         <button onclick="SearchEvent('22')" style="width:100px; margin-top:5px; ">Search</button>
-        </div>
+  
   </form>
   
 </div>
@@ -453,34 +522,66 @@ Search Event
          
         <!--Save-->
         <div  id="modal-wrapper" class="container" align='center'>
-         <button onclick="SaveEvent()" style="width:250px; margin-top:5px; ">Save</button>
+         <button onclick="SaveEvent(this)" style="width:250px; margin-top:5px; ">Save</button>
         </div>
      
      
-
+	</form>
   </div>
+ 
+ 
+ 
+ <div id="modal-wrapperSearchEvent" class="modal">
+ 
+  <form class="modal-content animate" action="" name="callMethod" method="post">
+  <!--Menu name-->
+        <div class="imgcontainer">
+              <span onclick="document.getElementById('modal-wrapperSearchEvent').style.display='none'" class="close" title="Close PopUp">&times;</span>
+              <img src="C:\Users\User\Calendar_Web\pictures\search.png" alt="Avatar" class="avatar">
+              <h1 style="text-align:center">Search Event!</h1>
+        </div>
+         <!--Title-->
+        <div class="container" align='center'>
+       
+               <input type="search" placeholder="Event Name" name="search" id="search">
+        </div>
+         
+         
+        <!--Save-->
+        <div  id="modal-wrapperSearchEvent" class="container" align='center'>
+         <button onclick="SearchEvent()" style="width:200px; margin-top:5px; ">Search</button>
+        </div>
+     
+     
+	</form>
+  </div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
   <!--Show Event-->
  <div id="modal-wrapperShowEvent" class="modal">
  
-  <form class="modal-content animate" action="/action_page.php"name="callMethod" method="post">
+  <form class="modal-content animate" action="/action_page.php" name="callMethod" method="post">
     <span onclick="document.getElementById('modal-wrapperShowEvent').style.display='block'" >&times;</span>
    
     </form>
     
   </div>
-  
-  <div id="modal-wrapperSearchEvent" class="modal">
- 
-  <form class="modal-content animate" action="/action_page.php"name="callMethod" method="post">
-    <span onclick="document.getElementById('modal-wrapperSearchEvent').style.display='block'" >&times;</span>
-   
-    </form>
-    
-  </div>
-  
-  
 
+
+
+
+<form name="frmCalendarSample" method="post" action="">
 <script language="JavaScript" for=window event=onload>
 <!-- Begin
 var dCurDate = new Date();
@@ -491,7 +592,9 @@ frmCalendarSample.tbSelYear.options[i].selected = true;
 //  End -->
 </script>
 
-<form name="frmCalendarSample" method="post" action="">
+
+
+
 <input type="hidden" name="calSelectedDate" value="">
 
 <div class="mouth-year select" style="width:800pxs; "style="height:800px;" align='center' >
