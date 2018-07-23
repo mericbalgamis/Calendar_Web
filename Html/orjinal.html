@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -16,9 +16,11 @@ var dCurDayOfMonth = dDate.getDate();
 var dCurYear = dDate.getFullYear();
 var objPrevElement = new Object();
 var dCurDate = new Date();
-
+var selectedDayForEvent="";
+var selectedYearForEvent="";
+var selectedMonthForEvent="";
 var addingEvent;
-
+var isEvent=0;
 var modal2 = document.getElementById('modal-wrapperShowEvent');
 
 function SearchEvent() { 
@@ -75,9 +77,11 @@ function SaveEvent(Date) {
       contentType: "application/json; charset=utf-8",
       success:function(data) {
         console.log("data is added");
+		isEvent=1;
+		fAddEventColor();
       }
   });
-	    fAddEventColor();
+	    
 
 	    console.log(repeat);
 		  console.log(reminder);
@@ -104,12 +108,20 @@ function SaveEvent(Date) {
  
         function fToggleColor(myElement) {
 		
-
+		
+/*
      
                     var toggleColor = "	#800080";
                     if (myElement.id == "calDateText") {
                     if (myElement.color == toggleColor &&  (myElement.bgColor != "#FFA500" || myElement.bgColor != "#008000" ) ) {
-                    myElement.color = "";
+                    
+					//if( isEvent!=1 ){
+						console.log(isEvent);
+						myElement.color = "";
+						//isEvent=0;
+
+					//	}
+					
 					//alert("1.if");
                     } 
                     else {
@@ -120,7 +132,15 @@ function SaveEvent(Date) {
                     for (var i in myElement.children) {
                     if (myElement.children[i].id == "calDateText") {
                     if (myElement.children[i].color == toggleColor&& (myElement.bgColor != "#FFA500" || myElement.bgColor != "#008000" )){
-                    myElement.children[i].color = "";
+                  
+					//if( isEvent!=1 ){
+						//   alert("burda");
+						console.log(isEvent);
+						myElement.children[i].color = "";
+					//	isEvent=0;
+					//	}
+
+				  
 					//alert("2.if");
                     } else {
                     myElement.children[i].color = toggleColor;
@@ -130,20 +150,40 @@ function SaveEvent(Date) {
                    }
                 }
              }
+		  */	 
           }
-		  
+		
 		function fAddEvent(myElement){
 
 		                   
 		                   
 		                    //if event eklenirse
 		                    addingEvent=myElement;    
-		                   myElement.bgColor = "#FFA500";
-		                      
+		                //   myElement.bgColor = "#FFA500";
+		                 
+                       
 		                  //  modal.style.display = "block";
 		                var modal = document.getElementById('modal-wrapper');
-		                 modal.style.display="block";
-		             
+						
+						
+		            					 modal.style.display="block";
+						console.log(selectedDayForEvent);
+			             // selectedDayForEvent = selectedDayForEvent.trim();
+						  //selectedMonthForEvent = selectedMonthForEvent.trim();
+						
+							if(selectedDayForEvent<10)	
+								selectedDayForEvent="0"+selectedDayForEvent;
+							if(selectedMonthForEvent.length==1)				 
+								selectedMonthForEvent="0"+selectedMonthForEvent;	
+									console.log(selectedDayForEvent);
+		             var day=selectedYearForEvent+"-"+selectedMonthForEvent+"-"+selectedDayForEvent;
+					 
+					 
+					 
+					 
+					  document.getElementById("startDate").value=day;
+			
+					 console.log( document.getElementById("startDate").value);
 		}
 		function fAddEventColor(){
 
@@ -167,14 +207,21 @@ function SaveEvent(Date) {
              var reminder= reminderValue;
 		}
 		function fSetSelectedDay(myElement){
+		
 						if (myElement.id == "calCell") {
 						if (!isNaN(parseInt(myElement.children["calDateText"].innerText))) {
+							
+						selectedDayForEvent=(parseInt(myElement.children["calDateText"].innerText));
+						selectedYearForEvent=document.getElementById("year").value;
+						selectedMonthForEvent=document.getElementById("month").value;
 						//myElement.bgColor = "#c0c0c0";
 						fAddEvent(myElement);
-						if( myElement.bgColor == "#008000" )
-						alert("burda");
-						objPrevElement.bgColor = "";
-
+						if( isEvent!=1 ){
+						 //  alert("burda");
+						
+					objPrevElement.bgColor = "";
+							isEvent=0;
+						}
 						document.all.calSelectedDate.value = parseInt(myElement.children["calDateText"].innerText);
 						objPrevElement = myElement;
 
@@ -326,7 +373,7 @@ function SaveEvent(Date) {
          //  modalSave.style.display="none";
      }
  }
-
+    
 // End -->
 </script>
 
@@ -334,6 +381,8 @@ function SaveEvent(Date) {
 </head>
 
 <body background="C:\Users\User\Calendar_Web\pictures\back3.jpg">
+
+
 
 
 
@@ -462,7 +511,7 @@ Search Event
         <div class="container" align='center'>
          <label for="appt-startDate">Start Date:</label>
              <!----<input type="content" placeholder="StartData" name="start"> -->
-             <input type="date" name="StartDate" max="2030-12-31" id ="startDate">        
+             <input type="date" name="StartDate" max="2030-12-31" id ="startDate" readonly>        
         </div>    
     
       <!--EndDate-->
@@ -580,16 +629,25 @@ Search Event
 
 
 
+<p  align='center' id="time" ></p>
 
 <form name="frmCalendarSample" method="post" action="">
 <script language="JavaScript" for=window event=onload>
 <!-- Begin
 var dCurDate = new Date();
+
+
+
+
 frmCalendarSample.tbSelMonth.options[dCurDate.getMonth()].selected = true;
 for (i = 0; i < frmCalendarSample.tbSelYear.length; i++)
 if (frmCalendarSample.tbSelYear.options[i].value == dCurDate.getFullYear())
 frmCalendarSample.tbSelYear.options[i].selected = true;
 //  End -->
+
+
+
+
 </script>
 
 
@@ -601,7 +659,7 @@ frmCalendarSample.tbSelYear.options[i].selected = true;
 
       <table  border="18" table width="1000" table height="200" >
                
-                <select size="1" name="tbSelMonth" onchange='fUpdateCal(frmCalendarSample.tbSelYear.value, frmCalendarSample.tbSelMonth.value)'>
+                <select size="1" name="tbSelMonth" id="month" onchange='fUpdateCal(frmCalendarSample.tbSelYear.value, frmCalendarSample.tbSelMonth.value)'>
                 <option value="1">January</option>
                 <option value="2">February</option>
                 <option value="3">March</option>
@@ -616,7 +674,8 @@ frmCalendarSample.tbSelYear.options[i].selected = true;
                 <option value="12">December</option>
                 </select>
 
-                <select wight ="3"  name="tbSelYear" onchange='fUpdateCal(frmCalendarSample.tbSelYear.value, frmCalendarSample.tbSelMonth.value)'>
+
+                <select wight ="3"  name="tbSelYear" id="year" onchange='fUpdateCal(frmCalendarSample.tbSelYear.value, frmCalendarSample.tbSelMonth.value)'>
                 <option value="1990">1990</option>
                 <option value="1991">1991</option>
                 <option value="1992">1992</option>
@@ -668,10 +727,54 @@ frmCalendarSample.tbSelYear.options[i].selected = true;
 
              </select>
       </div>
-              <script language="JavaScript">
+                      <script language="JavaScript" for=window event=onload>
               var dCurDate = new Date();
-              fDrawCal(dCurDate.getFullYear(), dCurDate.getMonth()+1, 60, 60, "30px", "bold");
+			  
+
+
+document.getElementById("time").innerHTML = dCurDate;
+var date = document.getElementById("time").innerHTML;
+var current = date.split(" ");
+var month =current[1];
+console.log(month);
+var year =current[3];
+      
+
+if(month=="Jan")
+       month=1;
+else if(month=="Feb")
+       month=2;	   
+else if(month=="March")
+       month=3;
+else if(month=="April")
+       month=4;
+else if(month=="May")
+       month=5;
+else if(month=="Jun")
+       month=6;
+else if(month=="Jul")
+       month=7;
+else if(month=="August")
+       month=8;
+else if(month=="Sep")
+       month=9;
+else if(month=="Oct")
+       month=10;
+else if(month=="Nov")
+       month=11;
+else
+		month=12;
+		
+document.getElementById("year").value = year;
+document.getElementById("month").value = month;
+
+console.log(date);
+              fDrawCal(dCurDate.getFullYear(), dCurDate.getMonth()+1, 50, 50, "30px", "bold");
               </script>
+
+		
+		
+		
      </table>
 
 
