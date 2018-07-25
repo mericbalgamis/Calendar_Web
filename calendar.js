@@ -185,6 +185,28 @@
 			});	
 		}
 		
+		function getEvents() {
+			
+			var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
+			var eventArray;
+		
+			$.ajax({
+				type: 'GET',
+				url: baseUrl,
+				data: eventArray,
+				beforeSend: function (xhr) {
+					if (xhr && xhr.overrideMimeType) {
+					xhr.overrideMimeType('application/json;charset=utf-8');
+					}
+				},
+				dataType: 'json',
+				success: function (eventArray) {
+					console.log(eventArray);
+					}	
+				
+			});
+		}
+		
 		function saveEvent() {
 			var title = document.getElementById("title").value;
 			var content =document.getElementById("content").value;
@@ -246,4 +268,25 @@
 			document.getElementById("repeat").value="Every Day";
 			document.getElementById("reminder" ).value="Never";
 	}
+	
+	function openTab(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
  
