@@ -100,7 +100,7 @@
 							<!--Save-->
 							<div   style="position: absolute; left:1px; top:100px; ">
 								<button id="saveButton" onclick="saveEvent()" >Save</button>
-								<button id="editButton" onclick="getEvents()" >Get Events</button>
+								
 							</div>
 						</div>
 				</div>
@@ -108,6 +108,90 @@
 			<div id="my_appointments" class="tabcontent" >	
 
 							<ul id="event_list"></ul>
+							<div style="position: absolute; left: 900px; top: 100px; ">
+							<label for="appt-title">Title:</label>
+								   <input type="title" placeholder="Title" name="title" id="titleEdit">
+							</div>
+							  <!--Content-->
+							<div style="position: absolute; left: 900px; top: 130px; ">
+							 <label for="appt-content">Content:</label>
+								 <input type="content" placeholder="Content" name="content" id="contentEdit">
+							</div>
+							
+							 <!--Location-->
+							<div style="position: absolute; left: 900px; top: 160px; ">
+							 <label for="appt-location">Location:</label>
+								 <input type="content" placeholder="Location" name="location" id="locationEdit" >
+							</div>
+							
+							  <!--StartDate-->
+							<div style="position: absolute; left: 900px; top: 190px; ">
+							 <label for="appt-startDate">Start Date:</label>
+								 <!----<input type="content" placeholder="StartData" name="start"> -->
+								<input type="date" name="StartDate" max="2030-12-31" id="dateValueEdit" >  
+							</div>    
+						
+						  <!--EndDate-->
+							<div style="position: absolute; left: 900px; top: 220px; ">
+							 <label for="appt-endDate">End Date:</label>
+								 <!----<input type="content" placeholder="EndTime" name="end"> -->
+								 <input type="date" name="EndDate" max="2030-12-31" id ="endDateEdit">        
+							</div>  
+							
+							  <!--Start-->
+							<div style="position: absolute; left: 900px; top: 250px; ">
+							 <label for="appt-startTime">Start Time:</label>
+								 <!----<input type="content" placeholder="StartTime" name="start"> -->
+								 <input type="time" id="appt-startTimeEdit" 
+								   min="9:00" max="18:00" required / >
+								 
+							</div>
+							   <!--Finish-->
+							<div style="position: absolute; left: 900px; top: 280px; ">
+							 <label for="appt-finishTime">Finish Time:</label>
+								<input type="time"  id="appt-finishTimeEdit" 
+								   min="9:00" max="18:00" required />
+						   
+							 <!--Repeat-->
+							<div style="position: absolute; left:1px; top:30px; ">
+							 <label for="appt-repeat">Repeat:</label>
+							 <select size="1" name="tbRepeat" id="repeatEdit"  >
+							   
+									<option value="Every Day">Every Day</option>
+									<option value="Every Week">Every Week</option>
+									<option value="Every Month">Every Month</option>
+									<option value="Every Year">Every Year</option>
+									<option value="Never">Never</option>
+									
+									</select>
+							</div >
+							  <!--Reminder-->
+							  <div style="position: absolute; left:1px; top:55px; ">
+							  <label for="appt-reminder">Reminder:</label>
+							 <select size="1" name="tbReminder" id="reminderEdit" >
+								   <h1 style="text-align:Left">Repeat:</h1>
+									<option value="Never">Never</option>
+									<option value="At the Event Time">At the Event Time</option>
+									<option value="5 Minutes Ago">5 Minutes Ago</option>
+									<option value="10 Minutes Ago">10 Minutes Ago</option>
+									<option value="15 Minutes Ago">15 Minutes Ago</option>
+									<option value="30 Minutes Ago">30 Minutes Ago</option>
+									<option value="1 Hour Ago">1 Hour Ago</option> 
+									<option value="2 Hour Ago">2 Hour Ago</option>
+									<option value="1 Day Ago">1 Day Ago</option>  
+									<option value="2 Day Ago">2 Day Ago</option>  
+									<option value="1 Month Ago">1 Month  Ago</option>  
+									</select>
+							</div >
+							 
+							 
+							 
+							<!--Save-->
+							<div   style="position: absolute; left:1px; top:100px; ">
+								<button id="saveButton" onclick="saveEvent()" >Save</button>
+								
+							</div>
+						</div>
 						
 			</div>
 			<div id="search" class="tabcontent" >	
