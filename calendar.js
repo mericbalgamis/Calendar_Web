@@ -184,9 +184,15 @@
 				});
 			});	
 		}
-		
-		function getEvents() {
+		function searchEvent() {
 			
+			 var search = document.getElementById("titleSearch").value;
+			 alert(search);
+			 document.getElementById("titleSearch").value="";
+			
+		}
+		function getEvents() {
+		//	alert("calling");
 			var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
 			var eventArray;
 		
@@ -201,7 +207,19 @@
 				},
 				dataType: 'json',
 				success: function (eventArray) {
-					console.log(eventArray);
+					for(var item in eventArray) {
+						
+						var ul = document.getElementById("event_list");
+						var li = document.createElement("li");
+						var a = document.createElement("a");
+						a.href = "eventInfo.html?id="+eventArray[item].id;
+						//a.onclick = eventInfo(eventArray[item]);
+						a.text = eventArray[item].title;
+						li.appendChild(a);
+						ul.appendChild(li);
+						//console.log(eventArray);
+					}	
+					
 					}	
 				
 			});
@@ -288,5 +306,6 @@
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
+	getEvents();
 }
  

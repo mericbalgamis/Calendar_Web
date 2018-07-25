@@ -10,7 +10,8 @@
 		<!-- Tab links -->
 			<div class="tab">
 			  <button class="tablinks" onclick="openTab(event, 'add_event')">Add Event</button>
-			  <button class="tablinks" onclick="openTab(event, 'edit_event')">Edit Event</button>
+			  <button class="tablinks" onclick="openTab(event, 'my_appointments')">My Appointments</button>
+			   <button class="tablinks" onclick="openTab(event, 'search')">Search</button>
 			</div>
 
 			<!-- Tab content -->
@@ -18,38 +19,38 @@
 							<div id="calendar"></div>
 							<div id="demo"></div>
 							 <!--Title-->
-							<div class="container" align='left'>
+							<div style="position: absolute; left: 900px; top: 100px; ">
 							<label for="appt-title">Title:</label>
 								   <input type="title" placeholder="Title" name="title" id="title">
 							</div>
 							  <!--Content-->
-							<div class="container" align='left'>
+							<div style="position: absolute; left: 900px; top: 130px; ">
 							 <label for="appt-content">Content:</label>
 								 <input type="content" placeholder="Content" name="content" id="content">
 							</div>
 							
 							 <!--Location-->
-							<div class="container" align='left'>
+							<div style="position: absolute; left: 900px; top: 160px; ">
 							 <label for="appt-location">Location:</label>
 								 <input type="content" placeholder="Location" name="location" id="location" >
 							</div>
 							
 							  <!--StartDate-->
-							<div class="container" align='left'>
+							<div style="position: absolute; left: 900px; top: 165px; ">
 							 <label for="appt-startDate">Start Date:</label>
 								 <!----<input type="content" placeholder="StartData" name="start"> -->
 								<input type="text" name="StartDate" max="2030-12-31" id="dateValue" readonly>  
 							</div>    
 						
 						  <!--EndDate-->
-							<div class="container" align='left'>
+							<div style="position: absolute; left: 900px; top: 220px; ">
 							 <label for="appt-endDate">End Date:</label>
 								 <!----<input type="content" placeholder="EndTime" name="end"> -->
 								 <input type="date" name="EndDate" max="2030-12-31" id ="endDate">        
 							</div>  
 							
 							  <!--Start-->
-							<div class="container" align='left'>
+							<div style="position: absolute; left: 900px; top: 250px; ">
 							 <label for="appt-startTime">Start Time:</label>
 								 <!----<input type="content" placeholder="StartTime" name="start"> -->
 								 <input type="time" id="appt-startTime" 
@@ -57,13 +58,13 @@
 								 
 							</div>
 							   <!--Finish-->
-							<div class="container" align='left'>
+							<div style="position: absolute; left: 900px; top: 280px; ">
 							 <label for="appt-finishTime">Finish Time:</label>
 								<input type="time"  id="appt-finishTime" 
 								   min="9:00" max="18:00" required />
 						   
 							 <!--Repeat-->
-							<div class="container" align='left'>
+							<div style="position: absolute; left:1px; top:30px; ">
 							 <label for="appt-repeat">Repeat:</label>
 							 <select size="1" name="tbRepeat" id="repeat"  >
 							   
@@ -76,7 +77,7 @@
 									</select>
 							</div >
 							  <!--Reminder-->
-							   <div class="container" align='left'>
+							  <div style="position: absolute; left:1px; top:55px; ">
 							  <label for="appt-reminder">Reminder:</label>
 							 <select size="1" name="tbReminder" id="reminder" >
 								   <h1 style="text-align:Left">Repeat:</h1>
@@ -97,17 +98,26 @@
 							 
 							 
 							<!--Save-->
-							<div  id="saveButton" align='left'>
-								<button onclick="saveEvent()" >Save</button>
-								<button onclick="getEvents()" >Get Events</button>
+							<div   style="position: absolute; left:1px; top:100px; ">
+								<button id="saveButton" onclick="saveEvent()" >Save</button>
+								<button id="editButton" onclick="getEvents()" >Get Events</button>
 							</div>
-								</div>
+						</div>
+				</div>
 
-			<div id="edit_event" class="tabcontent">
-			  <h3>Paris</h3>
-			  <p>Paris is the capital of France.</p> 
+			<div id="my_appointments" class="tabcontent" >	
+
+							<ul id="event_list"></ul>
+						
 			</div>
+			<div id="search" class="tabcontent" >	
+			 <label for="titleSearch">Search:</label>
 
+				<input type="text" name="titleSearch"  id="titleSearch" >  
+               <button id="searchButton" onclick="searchEvent()" >Search</button>
+ 
+						
+			</div>
 
      
 <script type="text/javascript" src="calendar.js"></script>
