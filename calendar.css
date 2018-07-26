@@ -133,3 +133,7 @@ a.btn {
     border: 1px solid #ccc;
     border-top: none;
 }
+.label {
+    color: white;
+    padding: 8px;
+}
