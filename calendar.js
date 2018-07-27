@@ -207,22 +207,61 @@
 				},
 				dataType: 'json',
 				success: function (eventArray) {
+					var id="";
 					for(var item in eventArray) {
 						
-						var ul = document.getElementById("event_list");
-						var li = document.createElement("li");
-						var a = document.createElement("a");
-						a.href = "eventInfo.html?id="+eventArray[item].id;
-						//a.onclick = eventInfo(eventArray[item]);
-						a.text = eventArray[item].title;
-						li.appendChild(a);
-						ul.appendChild(li);
-						//console.log(eventArray);
+									var ul = document.getElementById("event_list");
+								    var b = document.createElement("input");
+									b.type = "button";
+									b.value = eventArray[item].title;
+									var li = document.createElement("li");
+									b.style = "background:none;border: none;";
+									b.name =eventArray[item].id;										
+									li.appendChild(b);
+									ul.appendChild(li);
+									
+									b.onclick = function(){
+										eventInfo(this.name);
+
+									};
 					}	
 					
-					}	
+				}	
 				
 			});
+		}
+		
+		function eventInfo(id){
+		
+		//	alert("calling");
+			var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/"+id;
+			var data;
+			$.ajax({
+				type: 'GET',
+				url: baseUrl,
+				data: data,
+				beforeSend: function (xhr) {
+					if (xhr && xhr.overrideMimeType) {
+					xhr.overrideMimeType('application/json;charset=utf-8');
+					}
+				},
+				dataType: 'json',
+				success: function (data) {
+							
+							document.getElementById("titleEdit").value = data.title;
+							document.getElementById("contentEdit").value = data.content;
+							document.getElementById("locationEdit").value = data.location;
+							document.getElementById("dateValueEdit").value = data.start_date;
+							document.getElementById("endDateEdit").value = data.end_date;
+							document.getElementById("appt-startTimeEdit").value = data.start_time;
+							document.getElementById("appt-finishTimeEdit" ).value = data.end_time;
+							document.getElementById("repeatEdit").value = data.repeat;
+							document.getElementById("reminderEdit" ).value = data.reminder;
+					
+				}	
+				
+			});			
+		
 		}
 		
 		function saveEvent() {
