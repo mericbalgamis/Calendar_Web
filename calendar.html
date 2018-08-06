@@ -6,6 +6,8 @@
 	<script type="text/javascript" src="jquery-1.11.3.js"></script>
 	  <script type="text/javascript" src="script.js"></script>
         <link type="text/css" rel="stylesheet" href="style.css">
+		
+
 </head>
 <body background="C:\Users\User\Calendar_Web\space.jpg">>
 
@@ -132,6 +134,7 @@
 			<div id="my_appointments" class="tabcontent" >	
                
 							<ul id="event_list"></ul>
+							
 							<div style="position: absolute; left: 900px; top: 100px; ">
 							<label  class ="label" for="appt-title">Title:</label>
 								   <input type="title" placeholder="Title" name="title" id="titleEdit">
@@ -220,10 +223,10 @@
 			</div>
 			<div id="search" class="tabcontent" >	
 			 <label   class ="label" for="titleSearch">Search:</label>
-
+            
 				<input type="text" name="titleSearch"  id="titleSearch" >  
                <button id="searchButton" onclick="searchEvent()" >Search</button>
- 
+                      <ul id="search_list"></ul>
 						
 			</div>
 

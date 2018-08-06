@@ -16,7 +16,11 @@
 		var currentDate = mainDate.getDate();
 		var currentMonth = mainDate.getMonth();
 		var currentYear = mainDate.getFullYear();
+           
+	
 
+      
+		 
 		//console.log(months);
 		monthsPrint(year, month);
 		
@@ -180,14 +184,64 @@
 				$(this).click(function() {
 					$("button").parent().removeClass("selected");
 					$(this).parent().addClass("selected");
-					$("#dateValue").val($(this).html()+"/"+(month+1)+"/"+year);
+					$("#dateValue").val($(this).html()+"-"+(month+1)+"-"+year);
 				});
 			});	
 		}
 		function searchEvent() {
 			
 			 var search = document.getElementById("titleSearch").value;
-			 alert(search);
+			         	var ul =document.getElementById("search_list");
+						//$('#search_list').empty();
+						$('#search_list').empty();
+						var li ;
+						var a ;
+			 
+			 	var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/search/"+search;
+			var eventArray;
+		
+			$.ajax({
+				type: 'GET',
+				url: baseUrl,
+				data: eventArray,
+				beforeSend: function (xhr) {
+					if (xhr && xhr.overrideMimeType) {
+					xhr.overrideMimeType('application/json;charset=utf-8');
+					}
+				},
+				dataType: 'json',
+				success: function (eventArray) {
+					alert(search);
+					for(var item in eventArray) {
+						ul =document.getElementById("search_list");
+						
+						 li = document.createElement("li");
+						 a = document.createElement("a");
+						a.href = "eventInfo.html?id="+eventArray[item].id;
+						//a.onclick = eventInfo(eventArray[item]);
+						a.text = eventArray[item].title;
+						li.appendChild(a);
+						ul.appendChild(li);
+						//console.log(eventArray);
+					}	
+					
+					}	
+				
+			});
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
 			 document.getElementById("titleSearch").value="";
 			
 		}
@@ -225,16 +279,276 @@
 			});
 		}
 		
+		
+	      function repeatEvent(title,content,location,startDate,endDate,startTime,finishTime,repeat,reminder){
+			  console.log(endDate);
+	         startDate = startDate.split("-");
+			  endDate = endDate.split("-");
+			  console.log(endDate);
+			  // ["2018", "08", "28"]
+			 // ["14", "8", "2018"]
+			 var kacCekiyorStart=0;
+			 var kacCekiyorEnd=0;
+			  if (startDate[1]==2)
+			        kacCekiyorStart=28;
+			  if (startDate[1]<=7 && startDate[1]!=2)
+			  {
+				  if(startDate[1] % 2 ==0)
+					  kacCekiyorStart=30;
+				  else{
+					  kacCekiyorStart=31;
+				  }
+			  }
+			 if (startDate[1]>7  )
+			  {
+				  if(startDate[1] % 2 ==0)
+					  kacCekiyorStart=31;
+				  else{
+					  kacCekiyorStart=30;
+				  }
+			  }
+			
+			//  console.log( kacCekiyorStart);
+			  
+			  if (endDate[1]==2)
+			        kacCekiyorEnd=28;
+			  if (endDate[1]<=7 && endDate[1]!=2)
+			  {
+				  if(endDate[1] % 2 ==0)
+					  kacCekiyorEnd=30;
+				  else{
+					  kacCekiyorEnd=31;
+				  }
+			  }
+			 if (endDate[1]>7  )
+			  {
+				  if(endDate[1] % 2 ==0)
+					  kacCekiyorEnd=31;
+				  else{
+					  kacCekiyorEnd=30;
+				  }
+			  }	
+
+
+                
+
+
+			  
+			 if(repeat=='Every Day'){
+				   var i = kacCekiyorStart-parseInt(startDate[0]);
+				  // console.log(i)
+				 // var j = kacCekiyorEnd-endDate[1];
+				   var k;
+				 for (k=0; k<i; k++){
+					         var j = kacCekiyorEnd-parseInt(endDate[2]);
+							 var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
+							//var baseUrl = "http://localhost:3000/calendars";
+							var a = parseInt(startDate[0])+1;
+                           startDate[0] =a.toString();
+						   
+						   
+						   if(j>0)
+                           {
+							    var b = parseInt(endDate[2])+1;
+                                endDate[2] =b.toString();
+						   }
+					       else{
+							   if(kacCekiyorEnd==31){
+								   var b = (parseInt(endDate[2])+1)%31;
+                                endDate[2] =b.toString();
+								   
+								 
+                                 
+							   }
+							   else{
+								    var b = (parseInt(endDate[2])+1)%30;
+                                endDate[2] =b.toString();
+							   }
+								     var b = (parseInt(endDate[1])+1);
+                                endDate[1] =b.toString();
+							//endDate[1]=endDate[1]+1;
+						   }
+						   
+						   console.log(startDate+"  "+ endDate);
+						   
+						   
+						     var    sd = startDate[0]+"-"+startDate[1]+"-"+startDate[2];
+						     var    ed= endDate[2]+"-"+endDate[1]+"-"+endDate[0];   
+					   
+							var myObject = {
+								"id": 45,
+								"title": title,
+								"content":content,
+								"location":location,
+								"start_date": sd,
+								"start_time":  startTime,
+								"end_date": ed,
+								"end_time": finishTime,
+								"repeat": repeat,
+								"reminder": reminder
+								};
+								
+								
+								//alert(baseUrl);
+
+								
+								 $.ajax({
+
+								  url:baseUrl,
+								  type:'POST',
+								  dataType:'json',
+								  data : JSON.stringify(myObject),
+								  contentType: "application/json; charset=utf-8",
+								  success:function(data) {
+									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
+										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
+									console.log("data is added");
+										
+								  }
+								  
+							  });
+									
+					 
+				 }
+				   
+				   
+				   
+			  }
+			 
+		      if (repeat=='Every Week'){
+				  
+				  
+				    var i = (kacCekiyorStart-parseInt(startDate[0]))/7 ;
+					i=Math.floor(i);
+				   console.log(i)
+				 // var j = kacCekiyorEnd-endDate[1];
+				   var k;
+				   					   
+				 for (k=0; k<i; k++){
+					         var j = kacCekiyorEnd-parseInt(endDate[2]);
+							 var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
+							//var baseUrl = "http://localhost:3000/calendars";
+							var a = parseInt(startDate[0])+7;
+                           startDate[0] =a.toString();
+						   
+						   
+						   if(j>=7)
+                           {
+							    var b = parseInt(endDate[2])+7;
+                                endDate[2] =b.toString();
+						   }
+					       else{
+							   if(kacCekiyorEnd==31){
+								   var b = (parseInt(endDate[2])+7)%31;
+                                endDate[2] =b.toString();
+								   
+								 
+                                 
+							   }
+							   else{
+								    var b = (parseInt(endDate[2])+7)%30;
+                                endDate[2] =b.toString();
+							   }
+								     var b = (parseInt(endDate[1])+1);
+                                endDate[1] =b.toString();
+							//endDate[1]=endDate[1]+1;
+						   }
+						   
+						   console.log(startDate+"  "+ endDate);
+						   
+						   
+						     var    sd = startDate[0]+"-"+startDate[1]+"-"+startDate[2];
+						     var    ed= endDate[2]+"-"+endDate[1]+"-"+endDate[0];   
+					   /*
+							var myObject = {
+								"id": 45,
+								"title": title,
+								"content":content,
+								"location":location,
+								"start_date": sd,
+								"start_time":  startTime,
+								"end_date": ed,
+								"end_time": finishTime,
+								"repeat": repeat,
+								"reminder": reminder
+								};
+								
+								
+								//alert(baseUrl);
+
+								
+								 $.ajax({
+
+								  url:baseUrl,
+								  type:'POST',
+								  dataType:'json',
+								  data : JSON.stringify(myObject),
+								  contentType: "application/json; charset=utf-8",
+								  success:function(data) {
+									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
+										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
+									console.log("data is added");
+										
+								  }
+								  
+							  });
+									
+					 */
+				 }
+				   
+			
+			  }
+				  
+				/*  
+			  else if(repeat=='Every Month'){
+				     var kacAy=12-startDate[1];
+               var k ;
+              for (K; k<12;k++) {		
+			         
+				  if(kacCekiyorStart==31){
+					  
+				  }
+			      else{
+					  
+				  }
+				  if(kacCekiyorEnd==31){
+					  
+				  }
+					  
+			  }
+				  
+			  }
+				  
+			  else {
+				  
+				  
+			  }
+			*/
+	
+		
+			
+			
+	        }
+		
 		function saveEvent() {
+			
+	
 			var title = document.getElementById("title").value;
 			var content =document.getElementById("content").value;
 			var location =document.getElementById("location").value;
 			var startDate= document.getElementById("dateValue").value;
+			startDate = startDate.replace("Add Event", "");
 			var endDate= document.getElementById("endDate").value;
 			var startTime =document.getElementById("appt-startTime").value;
 			var finishTime =document.getElementById("appt-finishTime" ).value;
 			var repeat =document.getElementById("repeat").value;
 			var reminder=document.getElementById("reminder" ).value;
+			//alert( startDate);
+			  if(repeat!='Never')
+			 repeatEvent(title,content,location,startDate,endDate,startTime,finishTime,repeat,reminder);
+			
+			
+			
 			
 			var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
 					//var baseUrl = "http://localhost:3000/calendars";
@@ -265,8 +579,12 @@
 			  data : JSON.stringify(myObject),
 			  contentType: "application/json; charset=utf-8",
 			  success:function(data) {
-				console.log("data is added");
+				//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
+				  	$( "span[data-day='"+startDate+"']" ).addClass("eventAdded");
+				console.log("data is added from save");
+				    
 			  }
+			  
 		  });
 				
 
@@ -278,7 +596,7 @@
 			document.getElementById("title").value="";
 			document.getElementById("content").value="";
 			document.getElementById("location").value="";
-			//$("#dateValue").val($(this).html()+"/"+(month+1)+"/"+year);
+			//$("#dateValue").val($(this).html()+"-"+(month+1)+"-"+year);
 			//document.getElementById("dateValue").set="";
 			document.getElementById("endDate").value="";
 			document.getElementById("appt-startTime").value="";

@@ -28,6 +28,10 @@ body {
 	background-color: green;
 	color: #ffffff;
 }
+#myTable span.eventAdded {
+	background-color: red;
+	color: #ffffff;
+}
 #myTable span button, #myTable span button:focus {
 	background-color: transparent;
 	border: none;
