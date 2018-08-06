@@ -229,7 +229,7 @@
 					//alert(search);
 					for(var item in eventArray) {
 						ul =document.getElementById("search_list");
-						
+						/*
 						 li = document.createElement("li");
 						 a = document.createElement("a");
 						a.href = "eventInfo.html?id="+eventArray[item].id;
@@ -238,6 +238,20 @@
 						li.appendChild(a);
 						ul.appendChild(li);
 						//console.log(eventArray);
+						*/
+						  var b = document.createElement("input");
+									b.type = "button";
+									b.value = eventArray[item].title;
+									var li = document.createElement("li");
+									b.style = "background:none;border: none;";
+									b.name =eventArray[item].id;										
+									li.appendChild(b);
+									ul.appendChild(li);
+									
+									b.onclick = function(){
+										eventInfoSearch(this.name);
+
+									};
 					}	
 					
 					}	
@@ -815,7 +829,39 @@
 			document.getElementById("reminder" ).value="Never";
 			*/
 		}
-		
+		function eventInfoSearch(id){
+			correctId = id;
+		//	alert("calling");
+			var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/"+correctId;
+			var data;
+			$.ajax({
+				type: 'GET',
+				url: baseUrl,
+				data: data,
+				beforeSend: function (xhr) {
+					if (xhr && xhr.overrideMimeType) {
+					xhr.overrideMimeType('application/json;charset=utf-8');
+					}
+				},
+				dataType: 'json',
+				success: function (data) {
+							
+							document.getElementById("titleSearch1").value = data.title;
+							document.getElementById("contentSearch").value = data.content;
+							document.getElementById("locationSearch").value = data.location;
+							document.getElementById("dateValueSearch").value = data.start_date;
+							document.getElementById("endDateSearch").value = data.end_date;
+							document.getElementById("appt-startTimeSearch").value = data.start_time;
+							document.getElementById("appt-finishTimeSearch" ).value = data.end_time;
+							document.getElementById("repeatSearch").value = data.repeat;
+							document.getElementById("reminderSearch" ).value = data.reminder;
+					
+				}	
+				
+			});			
+			
+			//document.getElementById("saveButtonEdit").onclick= editEvent(id);
+		}
 		function saveEvent() {
 			
 			 var dateTrue=0;
