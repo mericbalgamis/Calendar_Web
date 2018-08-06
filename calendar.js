@@ -16,8 +16,11 @@
 		var currentDate = mainDate.getDate();
 		var currentMonth = mainDate.getMonth();
 		var currentYear = mainDate.getFullYear();
-           
+
 	
+
+		var correctId = "";
+
 
       
 		 
@@ -265,25 +268,30 @@
 				},
 				dataType: 'json',
 				success: function (eventArray) {
+					var id="";
 					for(var item in eventArray) {
 						
-						var ul = document.getElementById("event_list");
-						var li = document.createElement("li");
-						var a = document.createElement("a");
-						a.href = "eventInfo.html?id="+eventArray[item].id;
-						//a.onclick = eventInfo(eventArray[item]);
-						a.text = eventArray[item].title;
-						li.appendChild(a);
-						ul.appendChild(li);
-						//console.log(eventArray);
+									var ul = document.getElementById("event_list");
+								    var b = document.createElement("input");
+									b.type = "button";
+									b.value = eventArray[item].title;
+									var li = document.createElement("li");
+									b.style = "background:none;border: none;";
+									b.name =eventArray[item].id;										
+									li.appendChild(b);
+									ul.appendChild(li);
+									
+									b.onclick = function(){
+										eventInfo(this.name);
+
+									};
 					}	
 					
-					}	
+				}	
 				
 			});
 		}
-		
-		
+				
 	      function repeatEvent(title,content,location,startDate,endDate,startTime,finishTime,repeat,reminder){
 			  console.log(endDate);
 	         startDate = startDate.split("-");
@@ -691,11 +699,127 @@
 			  }
 	        
 }
-			function saveEvent() {
+		function eventInfo(id){
+			correctId = id;
+		//	alert("calling");
+			var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/"+correctId;
+			var data;
+			$.ajax({
+				type: 'GET',
+				url: baseUrl,
+				data: data,
+				beforeSend: function (xhr) {
+					if (xhr && xhr.overrideMimeType) {
+					xhr.overrideMimeType('application/json;charset=utf-8');
+					}
+				},
+				dataType: 'json',
+				success: function (data) {
+							
+							document.getElementById("titleEdit").value = data.title;
+							document.getElementById("contentEdit").value = data.content;
+							document.getElementById("locationEdit").value = data.location;
+							document.getElementById("dateValueEdit").value = data.start_date;
+							document.getElementById("endDateEdit").value = data.end_date;
+							document.getElementById("appt-startTimeEdit").value = data.start_time;
+							document.getElementById("appt-finishTimeEdit" ).value = data.end_time;
+							document.getElementById("repeatEdit").value = data.repeat;
+							document.getElementById("reminderEdit" ).value = data.reminder;
+					
+				}	
+				
+			});			
+			
+			//document.getElementById("saveButtonEdit").onclick= editEvent(id);
+		}
+		function deleteEvent(id){
+			
+			console.log(correctId);
+			var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/"+correctId;
+					//var baseUrl = "http://localhost:3000/calendars";
+
+			$.ajax({
+
+			  url:baseUrl,
+			  type:'DELETE',
+			  dataType:'json',
+			  data :"",
+			  contentType: "application/json; charset=utf-8",
+			  success:function(data) {
+				console.log("data is deleted");
+			  }
+		  });
+				
+			
+			document.getElementById("titleEdit").value="";
+			document.getElementById("contentEdit").value="";
+			document.getElementById("locationEdit").value="";
+			document.getElementById("endDateEdit").value="";
+			document.getElementById("appt-startTimeEdit").value="";
+			document.getElementById("appt-finishTimeEdit" ).value="";
+			document.getElementById("repeatEdit").value="Every Day";
+			document.getElementById("reminderEdit" ).value="Never";
+			
+		}
 		
-	        var dateTrue=0;
-			// 0 yap
-			//$(this).parent().addClass("selected");
+				function editEvent(id){
+			
+			var title = document.getElementById("titleEdit").value;
+			var content =document.getElementById("contentEdit").value;
+			var location =document.getElementById("locationEdit").value;
+			var startDate= document.getElementById("dateValueEdit").value;
+			var endDate= document.getElementById("endDateEdit").value;
+			var startTime =document.getElementById("appt-startTimeEdit").value;
+			var finishTime =document.getElementById("appt-finishTimeEdit" ).value;
+			var repeat =document.getElementById("repeatEdit").value;
+			var reminder=document.getElementById("reminderEdit" ).value;
+			
+			var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/"+correctId;
+					//var baseUrl = "http://localhost:3000/calendars";
+
+
+					var myObject = {
+						"title": title,
+						"content":content,
+						"location":location,
+						"start_date": startDate,
+						"start_time":  startTime,
+						"end_date": endDate,
+						"end_time": finishTime,
+						"repeat": repeat,
+						"reminder": reminder
+						};
+			
+			$.ajax({
+
+			  url:baseUrl,
+			  type:'PUT',
+			  dataType:'json',
+			  data : JSON.stringify(myObject),
+			  contentType: "application/json; charset=utf-8",
+			  success:function(data) {
+				console.log("data is edited");
+			  }
+		  });
+				
+			/*
+			document.getElementById("title").value="";
+			document.getElementById("content").value="";
+			document.getElementById("location").value="";
+			//$("#dateValue").val($(this).html()+"/"+(month+1)+"/"+year);
+			//document.getElementById("dateValue").set="";
+			document.getElementById("endDate").value="";
+			document.getElementById("appt-startTime").value="";
+			document.getElementById("appt-finishTime" ).value="";
+			document.getElementById("repeat").value="Every Day";
+			document.getElementById("reminder" ).value="Never";
+			*/
+		}
+		
+		function saveEvent() {
+			
+			 var dateTrue=0;
+
 			var title = document.getElementById("title").value;
 			var content =document.getElementById("content").value;
 			var location =document.getElementById("location").value;
@@ -794,9 +918,10 @@
 			  
 		  });
 				
-               
-				console.log(repeat);
-				  console.log(reminder);
+
+				
+				//console.log(repeat);
+				 //console.log(reminder);
    
 			}
 		   
