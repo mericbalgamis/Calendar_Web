@@ -119,7 +119,7 @@
 				} else if(year<currentYear) {
 					dayActive = "prevDay";
 				}
-				innerHTML+="<span data-day='"+j+"/"+(month+1)+"/"+year+"' class='"+myClass+" "+dayActive+"'><button id='eachDay' "+disabled+">"+j+"</button></span>";
+				innerHTML+="<span data-day='"+j+"-"+(month+1)+"-"+year+"' class='"+myClass+" "+dayActive+"'><button id='eachDay' "+disabled+">"+j+"</button></span>";
 				//addCurrendDateClass(i, j);
 				
 				/*if(totalTds%7 == 0) {
@@ -164,7 +164,7 @@
 			innerHTML="";
 			monthsPrint(year, month);
 			if($("#dateValue").val()!='') {
-				$( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
+			$( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
 			}
 		}
 		function prevYear() {
@@ -182,9 +182,15 @@
 		function printDateFormat(months) {
 			$("button").each(function() {
 				$(this).click(function() {
+					
+					//if($("button").parent().className!=("eventAdded")) {
 					$("button").parent().removeClass("selected");
 					$(this).parent().addClass("selected");
 					$("#dateValue").val($(this).html()+"-"+(month+1)+"-"+year);
+				//	$(this).parent().addClass("eventAdded");
+				
+			//		}
+				
 				});
 			});	
 		}
@@ -196,7 +202,13 @@
 						$('#search_list').empty();
 						var li ;
 						var a ;
-			 
+		  
+		
+		            if(search.includes(" "))
+					{  console.log(search);
+						search=search.replace(" ","%20");
+					}
+		        console.log(search);
 			 	var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/search/"+search;
 			var eventArray;
 		
@@ -211,7 +223,7 @@
 				},
 				dataType: 'json',
 				success: function (eventArray) {
-					alert(search);
+					//alert(search);
 					for(var item in eventArray) {
 						ul =document.getElementById("search_list");
 						
@@ -228,14 +240,6 @@
 					}	
 				
 			});
-			 
-			 
-			 
-			 
-			 
-			 
-			 
-			 
 			 
 			 
 			 
@@ -415,7 +419,7 @@
 				   
 			  }
 			 
-		      if (repeat=='Every Week'){
+		   else  if (repeat=='Every Week'){
 				  
 				  
 				    var i = (kacCekiyorStart-parseInt(startDate[0]))/7 ;
@@ -459,7 +463,7 @@
 						   
 						     var    sd = startDate[0]+"-"+startDate[1]+"-"+startDate[2];
 						     var    ed= endDate[2]+"-"+endDate[1]+"-"+endDate[0];   
-					   /*
+					   
 							var myObject = {
 								"id": 45,
 								"title": title,
@@ -493,50 +497,209 @@
 								  
 							  });
 									
-					 */
+					 
 				 }
 				   
 			
 			  }
-				  
-				/*  
+			
+				 
 			  else if(repeat=='Every Month'){
-				     var kacAy=12-startDate[1];
-               var k ;
-              for (K; k<12;k++) {		
-			         
-				  if(kacCekiyorStart==31){
-					  
-				  }
-			      else{
-					  
-				  }
-				  if(kacCekiyorEnd==31){
-					  
-				  }
-					  
-			  }
+					var kacAy=12-startDate[1];
+					console.log(kacAy+"kaçAy");
+					var k =0;
+					var ed;
+					var sd;
+					   // ["2018", "08", "28"]  end
+			        // ["14", "8", "2018"]  start
+					for (k; k<kacAy;k++) {		
+			       //  console.log(startDate[0]);
+							if(startDate[0]==31){
+			         //         console.log("bu startdate 31 çekiyor");
+
+					        // bir sonraki ay 30sa
+					         var a = parseInt(startDate[1])+1;
+						     startDate[1] =a.toString();
+								     //ocaksa
+									if(startDate[1]==2){
+										//þubat için
+										var a = parseInt(startDate[1])+1;
+								      	startDate[1] =a.toString();
+										var b = parseInt(startDate[0])%28;
+								      	startDate[0] =a.toString();
+										
+									}
+									
+									else{
+										//31 den 30 a düþersen
+										 var kacCekiyorStart=0;
+										  if (startDate[1]<=7 && startDate[1]!=2)
+										  {
+											  if(startDate[1] % 2 ==0)
+												  kacCekiyorStart=30;
+											  else{
+												  kacCekiyorStart=31;
+											  }
+										  }
+										 if (startDate[1]>7  )
+										  {
+											  if(startDate[1] % 2 ==0)
+												  kacCekiyorStart=31;
+											  else{
+												  kacCekiyorStart=30;
+											  }
+										  }
+										
+										if(kacCekiyorStart=30)
+										{
+									    var a = parseInt(startDate[1])+1;
+								      	startDate[1] =a.toString();
+										var b = parseInt(startDate[0])%30;
+								      	startDate[0] =a.toString();
+										}
+									
+									}
+									 sd = startDate[0]+"-"+startDate[1]+"-"+startDate[2];
+									
+							}
+						    else{
+								    var a = parseInt(startDate[1])+1;
+								    startDate[1] =a.toString();
+								    sd = startDate[0]+"-"+startDate[1]+"-"+startDate[2];
+						//		   console.log("startdate ay 31 çekmiyor");
+							   
+							}
+							//*****************************END DATE ÝÇÝN*****************************   
+							  // ["2018", "08", "28"]  end
+						
+							if(endDate[2]==31){
+					        // bir sonraki ay 30sa
+					         var a = parseInt(endDate[1])+1;
+						     endDate[1] =a.toString();
+								     //ocaksa
+									if(endDate[1]==2){
+										//þubat için
+										var a = parseInt(endDate[1])+1;
+								      	endDate[1] =a.toString();
+										var b = parseInt(endDate[2])%28;
+								      	endDate[2] =a.toString();
+										
+									}
+									
+									else{
+										//31 den 30 a düþersen
+										 var kacCekiyorStart=0;
+										  if (endDate[1]<=7 )
+										  {
+											  if(endDate[1] % 2 ==0)
+												  kacCekiyorStart=30;
+											  else{
+												  kacCekiyorStart=31;
+											  }
+										  }
+										 if (endDate[1]>7  )
+										  {
+											  if(endDate[1] % 2 ==0)
+												  kacCekiyorStart=31;
+											  else{
+												  kacCekiyorStart=30;
+											  }
+										  }
+										
+										if(kacCekiyorStart==30)
+										{
+									    var a = parseInt(endDate[1])+1;
+								      	endDate[1] =a.toString();
+										var b = parseInt(endDate[2])%30;
+								      	endDate[2] =a.toString();
+										}
+									
+									}
+									 ed= endDate[2]+"-"+endDate[1]+"-"+endDate[0];   
+									
+							}
+						    else{
+								    var a = parseInt(endDate[1])+1;
+								    endDate[1] =a.toString();
+								     ed= endDate[2]+"-"+endDate[1]+"-"+endDate[0];   
+								   
+							   
+							}  
+							   
+							   console.log(sd+" "+ed);
+							//   console.log(ed);
+						  } 
+						  
+						 
 				  
 			  }
 				  
+			  
+				
 			  else {
+				    // ["2018", "08", "28"]  end
+			        // ["14", "8", "2018"]  start
+				    var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
+				     var k;
+			     	 for (k=0; k<30; k++){
+						 
+				    var a = parseInt(startDate[2])+1;
+                    startDate[2] =a.toString();
+				    var b = parseInt(endDate[0])+1;
+                    endDate[0] =a.toString(); 
+					//console.log(startDate+"  "+ endDate);
 				  
-				  
+				
+						     var    sd = startDate[0]+"-"+startDate[1]+"-"+startDate[2];
+						     var    ed= endDate[2]+"-"+endDate[1]+"-"+endDate[0];   
+			               	var myObject = {
+								"id": 45,
+								"title": title,
+								"content":content,
+								"location":location,
+								"start_date": sd,
+								"start_time":  startTime,
+								"end_date": ed,
+								"end_time": finishTime,
+								"repeat": repeat,
+								"reminder": reminder
+								};
+								
+								
+								//alert(baseUrl);
+
+								
+								 $.ajax({
+
+								  url:baseUrl,
+								  type:'POST',
+								  dataType:'json',
+								  data : JSON.stringify(myObject),
+								  contentType: "application/json; charset=utf-8",
+								  success:function(data) {
+									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
+										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
+									console.log("data is added");
+										
+								  }
+								  
+							  });
+									
+	                      }
+		
+			    // console.log(sd+"  "+ ed);
 			  }
-			*/
-	
+	        
+}
+			function saveEvent() {
 		
-			
-			
-	        }
-		
-		function saveEvent() {
-			
-	
+	        var dateTrue=0;
+			// 0 yap
+			//$(this).parent().addClass("selected");
 			var title = document.getElementById("title").value;
 			var content =document.getElementById("content").value;
 			var location =document.getElementById("location").value;
-			var startDate= document.getElementById("dateValue").value;
+			var startDate =document.getElementById("dateValue").value;
 			startDate = startDate.replace("Add Event", "");
 			var endDate= document.getElementById("endDate").value;
 			var startTime =document.getElementById("appt-startTime").value;
@@ -544,8 +707,50 @@
 			var repeat =document.getElementById("repeat").value;
 			var reminder=document.getElementById("reminder" ).value;
 			//alert( startDate);
-			  if(repeat!='Never')
-			 repeatEvent(title,content,location,startDate,endDate,startTime,finishTime,repeat,reminder);
+			
+			
+			var st =startTime.split(":");
+			var et =finishTime.split(":");
+			 var sd = startDate.split("-");
+			 var ed  = endDate.split("-");
+			  // ["2018", "08", "28"]end
+			 // ["14", "8", "2018"]start
+		
+			 if(ed[2]-sd[0]>=0 && sd[1]-ed[1]==0 && sd[2]-ed[0]==0 ){
+				 
+               		if(ed[2]-sd[0]==0){
+						if(et[0]-st[0]==0)
+							if(et[1]-st[1]>=0)
+					    		  dateTrue=1;
+				            else{
+								
+								alert("Bitis saatini yanlis girdiniz.");
+							}
+							else if(et[0]-st[0]>0)
+							dateTrue=1;
+							else
+							alert("Bitis saatini yanlis girdiniz.");
+					}
+					
+					
+					
+					
+			}
+			 
+			else{
+				alert("Bitis tarihini baslangic tarihi ile ayný gün ya da sonra, ayný ay ayni yil içerisinde olmalidir. ");
+			}
+			
+			
+			
+			
+			
+			
+			if(dateTrue){
+			
+			
+			 if(repeat!='Never')
+			repeatEvent(title,content,location,startDate,endDate,startTime,finishTime,repeat,reminder);
 			
 			
 			
@@ -579,30 +784,33 @@
 			  data : JSON.stringify(myObject),
 			  contentType: "application/json; charset=utf-8",
 			  success:function(data) {
-				//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
-				  	$( "span[data-day='"+startDate+"']" ).addClass("eventAdded");
-				console.log("data is added from save");
+			 // $( "span[data-day='"+$("#endDate").val()+"']" ).addClass("eventAdded");
+							//$( "span[data-day='08/08/2018']" ).addClass("eventAdded");
+							$( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("eventAdded");
+
+				console.log("is added");
 				    
 			  }
 			  
 		  });
 				
-
+               
 				console.log(repeat);
 				  console.log(reminder);
    
-		   
+			}
 		   
 			document.getElementById("title").value="";
 			document.getElementById("content").value="";
 			document.getElementById("location").value="";
 			//$("#dateValue").val($(this).html()+"-"+(month+1)+"-"+year);
-			//document.getElementById("dateValue").set="";
+			//	$('#startDate').empty();
 			document.getElementById("endDate").value="";
 			document.getElementById("appt-startTime").value="";
 			document.getElementById("appt-finishTime" ).value="";
 			document.getElementById("repeat").value="Every Day";
 			document.getElementById("reminder" ).value="Never";
+			
 	}
 	
 	function openTab(evt, cityName) {
