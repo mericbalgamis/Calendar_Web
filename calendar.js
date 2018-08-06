@@ -428,7 +428,7 @@
 								  success:function(data) {
 									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
 										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
-									console.log("data is added");
+									console.log("Every Day is added");
 										
 								  }
 								  
@@ -513,7 +513,7 @@
 								  success:function(data) {
 									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
 										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
-									console.log("data is added");
+									console.log("Every Week is added");
 										
 								  }
 								  
@@ -527,34 +527,39 @@
 			
 				 
 			  else if(repeat=='Every Month'){
+				    var baseUrl = "https://immense-coast-39524.herokuapp.com/calendars/";
 					var kacAy=12-startDate[1];
 					console.log(kacAy+"kaçAy");
 					var k =0;
 					var ed;
 					var sd;
+				
 					   // ["2018", "08", "28"]  end
 			        // ["14", "8", "2018"]  start
 					for (k; k<kacAy;k++) {		
-			       //  console.log(startDate[0]);
-							if(startDate[0]==31){
-			         //         console.log("bu startdate 31 çekiyor");
+			      	var subat=0;
+					var günOtuzBir=0;
+							// ay hesabý 
+							 var ayStartDate = parseInt(startDate[1])+1;
+						     startDate[1] =ayStartDate.toString();
+							 var ayEndDate = parseInt(endDate[1])+1;
+						     endDate[1] =ayEndDate.toString();
+							 
+							 
+							 if(startDate[1]==2)
+							 {									console.log("subat");
 
-					        // bir sonraki ay 30sa
-					         var a = parseInt(startDate[1])+1;
-						     startDate[1] =a.toString();
-								     //ocaksa
-									if(startDate[1]==2){
-										//þubat için
-										var a = parseInt(startDate[1])+1;
-								      	startDate[1] =a.toString();
-										var b = parseInt(startDate[0])%28;
-								      	startDate[0] =a.toString();
-										
-									}
-									
-									else{
-										//31 den 30 a düþersen
-										 var kacCekiyorStart=0;
+								 	    ayStartDate = parseInt(startDate[1])+1;
+								      	startDate[1] =ayStartDate.toString();
+										var gunStartDate = parseInt(startDate[0])%28;
+								      	startDate[0] =gunStartDate.toString();
+										subat=1;
+								 
+							 }
+							 if(startDate[0]==31) {
+								 	console.log("star 31 30 ");
+
+								  var kacCekiyorStart=0;
 										  if (startDate[1]<=7 && startDate[1]!=2)
 										  {
 											  if(startDate[1] % 2 ==0)
@@ -571,85 +576,119 @@
 												  kacCekiyorStart=30;
 											  }
 										  }
-										
-										if(kacCekiyorStart=30)
-										{
-									    var a = parseInt(startDate[1])+1;
-								      	startDate[1] =a.toString();
-										var b = parseInt(startDate[0])%30;
-								      	startDate[0] =a.toString();
-										}
-									
-									}
-									 sd = startDate[0]+"-"+startDate[1]+"-"+startDate[2];
-									
-							}
-						    else{
-								    var a = parseInt(startDate[1])+1;
+								 
+								 if(kacCekiyorStart==30)
+								 {   console.log(kacCekiyorStart+"kacCekiyorStart");
+							 
+							         var a = parseInt(startDate[1])+1;
 								    startDate[1] =a.toString();
-								    sd = startDate[0]+"-"+startDate[1]+"-"+startDate[2];
-						//		   console.log("startdate ay 31 çekmiyor");
-							   
-							}
-							//*****************************END DATE ÝÇÝN*****************************   
-							  // ["2018", "08", "28"]  end
-						
-							if(endDate[2]==31){
-					        // bir sonraki ay 30sa
-					         var a = parseInt(endDate[1])+1;
-						     endDate[1] =a.toString();
-								     //ocaksa
-									if(endDate[1]==2){
+									 var b = parseInt(startDate[0])%30;
+								     startDate[0] =b.toString();
+									 günOtuzBir=1;
+								 }
+								 
+							 }
+							
+							 
+							 sd = startDate[0]+"-"+startDate[1]+"-"+startDate[2];
+							 
+							 
+						     if(ayEndDate==2){
+								 
 										//þubat için
 										var a = parseInt(endDate[1])+1;
 								      	endDate[1] =a.toString();
 										var b = parseInt(endDate[2])%28;
-								      	endDate[2] =a.toString();
-										
-									}
+								      	endDate[2] =b.toString();
+										subat=1;
 									
-									else{
-										//31 den 30 a düþersen
-										 var kacCekiyorStart=0;
-										  if (endDate[1]<=7 )
-										  {
-											  if(endDate[1] % 2 ==0)
-												  kacCekiyorStart=30;
-											  else{
-												  kacCekiyorStart=31;
-											  }
-										  }
-										 if (endDate[1]>7  )
-										  {
-											  if(endDate[1] % 2 ==0)
-												  kacCekiyorStart=31;
-											  else{
-												  kacCekiyorStart=30;
-											  }
-										  }
-										
-										if(kacCekiyorStart==30)
+								 
+							 }
+							if(endDate[2]==31){
+					        // bir sonraki ay 30sa
+							var kacCekiyorEnd=0;
+							if (endDate[1]==2)
+							kacCekiyorEnd=28;
+								  if (endDate[1]<=7 && endDate[1]!=2)
+								  {
+									  if(endDate[1] % 2 ==0)
+										  kacCekiyorEnd=30;
+									  else{
+										  kacCekiyorEnd=31;
+									  }
+								  }
+								 if (endDate[1]>7  )
+								  {
+									  if(endDate[1] % 2 ==0)
+										  kacCekiyorEnd=31;
+									  else{
+										  kacCekiyorEnd=30;
+									  }
+								  }	
+										if(kacCekiyorEnd==30)
 										{
+											 console.log(kacCekiyorEnd+"kacCekiyorEnd");
 									    var a = parseInt(endDate[1])+1;
 								      	endDate[1] =a.toString();
 										var b = parseInt(endDate[2])%30;
-								      	endDate[2] =a.toString();
+								      	endDate[2] =b.toString();
+										günOtuzBir=1;
 										}
-									
-									}
-									 ed= endDate[2]+"-"+endDate[1]+"-"+endDate[0];   
-									
-							}
-						    else{
-								    var a = parseInt(endDate[1])+1;
-								    endDate[1] =a.toString();
-								     ed= endDate[2]+"-"+endDate[1]+"-"+endDate[0];   
-								   
-							   
-							}  
-							   
-							   console.log(sd+" "+ed);
-							//   console.log(ed);
+								 
+								 
+							 }
+							 
+							 ed= endDate[2]+"-"+endDate[1]+"-"+endDate[0];  
+							if(subat)
+								k=k+1;
+							if(günOtuzBir)
+								k=k+1;
+							
+							console.log(sd+"  " +ed);
+							console.log(k+"  KNIN DEÐERII" );
+							
+							
+							//REGUEST AT !!!!!!!
+								var myObject = {
+								"id": 45,
+								"title": title,
+								"content":content,
+								"location":location,
+								"start_date": sd,
+								"start_time":  startTime,
+								"end_date": ed,
+								"end_time": finishTime,
+								"repeat": repeat,
+								"reminder": reminder
+								};
+								
+								
+								//alert(baseUrl);
+
+								
+								 $.ajax({
+
+								  url:baseUrl,
+								  type:'POST',
+								  dataType:'json',
+								  data : JSON.stringify(myObject),
+								  contentType: "application/json; charset=utf-8",
+								  success:function(data) {
+									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
+										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
+									console.log("Every Month is added");
+										
+								  }
+								  
+							  });
+							
+							
+							
+							
+							
+							
+							
+							
 						  } 
 						  
 						 
@@ -701,7 +740,7 @@
 								  success:function(data) {
 									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
 										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
-									console.log("data is added");
+									console.log("Every Year is added");
 										
 								  }
 								  
@@ -908,7 +947,7 @@
 			}
 			 
 			else{
-				alert("Bitis tarihini baslangic tarihi ile ayný gün ya da sonra, ayný ay ayni yil içerisinde olmalidir. ");
+				alert("Bitis tarihini baslangic tarihi ile ayni gün ya da sonra, ayni ay ayni yil içerisinde olmalidir. ");
 			}
 			
 			
@@ -956,9 +995,9 @@
 			  success:function(data) {
 			 // $( "span[data-day='"+$("#endDate").val()+"']" ).addClass("eventAdded");
 							//$( "span[data-day='08/08/2018']" ).addClass("eventAdded");
-							$( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("eventAdded");
+						//	$( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("eventAdded");
 
-				console.log("is added");
+				console.log("SaveEvent is added");
 				    
 			  }
 			  
