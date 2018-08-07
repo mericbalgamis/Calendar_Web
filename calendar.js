@@ -427,7 +427,7 @@
 								  contentType: "application/json; charset=utf-8",
 								  success:function(data) {
 									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
-										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
+									//	$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
 									console.log("Every Day is added");
 										
 								  }
@@ -512,7 +512,7 @@
 								  contentType: "application/json; charset=utf-8",
 								  success:function(data) {
 									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
-										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
+									//	$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
 									console.log("Every Week is added");
 										
 								  }
@@ -675,7 +675,7 @@
 								  contentType: "application/json; charset=utf-8",
 								  success:function(data) {
 									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
-										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
+									//	$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
 									console.log("Every Month is added");
 										
 								  }
@@ -739,7 +739,7 @@
 								  contentType: "application/json; charset=utf-8",
 								  success:function(data) {
 									//  $( "span[data-day='"+$("#dateValue").val()+"']" ).addClass("selected");
-										$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
+									//	$( "span[data-day='"+sd+"']" ).addClass("eventAdded");
 									console.log("Every Year is added");
 										
 								  }
@@ -920,25 +920,30 @@
 			
 			var st =startTime.split(":");
 			var et =finishTime.split(":");
+			
 			 var sd = startDate.split("-");
 			 var ed  = endDate.split("-");
+			 
+			 
 			  // ["2018", "08", "28"]end
 			 // ["14", "8", "2018"]start
-		
+		//08:07
+		//04:56
 			 if(ed[2]-sd[0]>=0 && sd[1]-ed[1]==0 && sd[2]-ed[0]==0 ){
+				 console.log(dateTrue);
+				 
 				 
                		if(ed[2]-sd[0]==0){
-						if(et[0]-st[0]==0)
+						if(et[0]-st[0]==0){
 							if(et[1]-st[1]>=0)
 					    		  dateTrue=1;
-				            else{
-								
+				            else	
 								alert("Bitis saatini yanlis girdiniz.");
-							}
-							else if(et[0]-st[0]>0)
+						}
+						else if(et[0]-st[0]>0)
 							dateTrue=1;
-							else
-							alert("Bitis saatini yanlis girdiniz.");
+						else
+						alert("Bitis saatini yanlis girdiniz.");
 					}
 					
 					
@@ -955,7 +960,7 @@
 			
 			
 			
-			if(dateTrue){
+		if(dateTrue){
 			
 			
 			 if(repeat!='Never')
@@ -1003,12 +1008,12 @@
 			  
 		  });
 				
-
+		}
 				
 				//console.log(repeat);
 				 //console.log(reminder);
    
-			}
+			
 		   
 			document.getElementById("title").value="";
 			document.getElementById("content").value="";
